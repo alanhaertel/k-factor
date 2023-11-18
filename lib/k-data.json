@@ -1,0 +1,192 @@
+[
+    {
+        "Description": "C90-threaded",
+        "K1": 800,
+        "K2": 0.4
+    },
+    {
+        "Description": "C90-w1",
+        "K1": 1000,
+        "K2": 1.15
+    },
+    {
+        "Description": "C90-flanged-welded",
+        "K1": 800,
+        "K2": 0.25
+    },
+    {
+        "Description": "C90-w2",
+        "K1": 800,
+        "K2": 0.35
+    },
+    {
+        "Description": "C90-LR",
+        "K1": 800,
+        "K2": 0.2
+    },
+    {
+        "Description": "C90-w3",
+        "K1": 800,
+        "K2": 0.3
+    },
+    {
+        "Description": "C90-w4",
+        "K1": 800,
+        "K2": 0.27
+    },
+    {
+        "Description": "C90-w5",
+        "K1": 800,
+        "K2": 0.25
+    },
+    {
+        "Description": "C45-sr",
+        "K1": 500,
+        "K2": 0.2
+    },
+    {
+        "Description": "C45-w1",
+        "K1": 500,
+        "K2": 0.25
+    },
+    {
+        "Description": "C45-lr",
+        "K1": 500,
+        "K2": 0.15
+    },
+    {
+        "Description": "C45-w2",
+        "K1": 500,
+        "K2": 0.15
+    },
+    {
+        "Description": "C180-screwed",
+        "K1": 1000,
+        "K2": 0.6
+    },
+    {
+        "Description": "C180-flanged-welded",
+        "K1": 1000,
+        "K2": 0.35
+    },
+    {
+        "Description": "C180-lr",
+        "K1": 1000,
+        "K2": 0.3
+    },
+    {
+        "Description": "Tee-el-screwed",
+        "K1": 500,
+        "K2": 0.7
+    },
+    {
+        "Description": "Tee-thr-screwed",
+        "K1": 200,
+        "K2": 0.1
+    },
+    {
+        "Description": "Tee-el-lr",
+        "K1": 800,
+        "K2": 0.4
+    },
+    {
+        "Description": "Tee-thr-flanged-welded",
+        "K1": 150,
+        "K2": 0.05
+    },
+    {
+        "Description": "Tee-el-flanged-welded",
+        "K1": 800,
+        "K2": 0.8
+    },
+    {
+        "Description": "Tee-thr-branch",
+        "K1": 100,
+        "K2": 0
+    },
+    {
+        "Description": "Tee-el-branch",
+        "K1": 1000,
+        "K2": 1
+    },
+    {
+        "Description": "Valve-globe-angle",
+        "K1": 1000,
+        "K2": 2
+    },
+    {
+        "Description": "Valve-diaphragm",
+        "K1": 1000,
+        "K2": 2
+    },
+    {
+        "Description": "Valve-beta1",
+        "K1": 300,
+        "K2": 0.1
+    },
+    {
+        "Description": "Valve-globe-std",
+        "K1": 1500,
+        "K2": 4
+    },
+    {
+        "Description": "Valve-beta05",
+        "K1": 500,
+        "K2": 0.15
+    },
+    {
+        "Description": "Valve-check-lift",
+        "K1": 2000,
+        "K2": 10
+    },
+    {
+        "Description": "Valve-beta08",
+        "K1": 1000,
+        "K2": 0.25
+    },
+    {
+        "Description": "Valve-check-swing",
+        "K1": 1500,
+        "K2": 1.5
+    },
+    {
+        "Description": "Valve-butterfly",
+        "K1": 800,
+        "K2": 0.25
+    },
+    {
+        "Description": "Valve-check-disc",
+        "K1": 1000,
+        "K2": 0.5
+    },
+    {
+        "Description": "Misc-inlet-sq",
+        "K1": 160,
+        "K2": 0.5
+    },
+    {
+        "Description": "Misc-contraction",
+        "K1": 0,
+        "K2": 0.5
+    },
+    {
+        "Description": "Misc-inlet-inward",
+        "K1": 160,
+        "K2": 1
+    },
+    {
+        "Description": "Misc-enlargment",
+        "K1": 0,
+        "K2": 1
+    },
+    {
+        "Description": "Misc-inlet-flush",
+        "K1": 160,
+        "K2": 0.05
+    },
+    {
+        "Description": "Misc-orifice",
+        "K1": 0,
+        "K2": 32
+    }
+]
