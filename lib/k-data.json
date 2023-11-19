@@ -20,7 +20,7 @@
         "K2": 0.35
     },
     {
-        "Description": "C90-LR",
+        "Description": "C90-lr",
         "K1": 800,
         "K2": 0.2
     },
@@ -130,7 +130,7 @@
         "K2": 4
     },
     {
-        "Description": "Valve-beta05",
+        "Description": "Valve-beta09",
         "K1": 500,
         "K2": 0.15
     },
@@ -155,7 +155,7 @@
         "K2": 0.25
     },
     {
-        "Description": "Valve-check-disc",
+        "Description": "Valve-check-disk",
         "K1": 1000,
         "K2": 0.5
     },

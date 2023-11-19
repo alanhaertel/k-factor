@@ -10,7 +10,7 @@ export function SelectUnit ({ selectOptions }: SelectUnitProps) {
 
     return (
         <Select>
-            <SelectTrigger className='max-w-[13rem] h-7'>
+            <SelectTrigger className='max-w-[13rem] min-w-[7rem] h-7'>
                 <SelectValue placeholder={entries[0][1]}/>
             </SelectTrigger>
             <SelectContent>

@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
     title: 'K Friction Factor',
-    description: 'Calculate k friction factor. Powered by Alan Haertel'
+    description: 'Calculate k friction factor. Developed by Alan Haertel'
 }
 
 export default function RootLayout ({
@@ -20,9 +20,10 @@ export default function RootLayout ({
             <body className={inter.className}>
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
+                    defaultTheme="dark"
                     enableSystem
-                    disableTransitionOnChange>
+                    disableTransitionOnChange
+                >
                     {children}
                 </ThemeProvider>
             </body>
