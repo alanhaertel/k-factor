@@ -3,15 +3,17 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 type SelectUnitProps = {
     selectOptions: Units
+    onValueChange: (value: string) => void
+    value: string
 }
 
-export function SelectUnit ({ selectOptions }: SelectUnitProps) {
+export function SelectUnit ({ selectOptions, value, onValueChange }: SelectUnitProps) {
     const entries = Object.entries(selectOptions)
 
     return (
-        <Select>
+        <Select value={value} onValueChange={onValueChange}>
             <SelectTrigger className='max-w-[13rem] min-w-[7rem] h-7'>
-                <SelectValue placeholder={entries[0][1]}/>
+                <SelectValue/>
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
