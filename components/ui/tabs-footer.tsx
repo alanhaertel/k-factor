@@ -6,12 +6,11 @@ import { GithubIcon } from './github-icon'
 import { Input } from './input'
 import { InputLabel } from './input-label'
 import { LinkedinIcon } from './linkedin-icon'
-const addon = require('../../backend/index.node')
+import { result } from '@/lib/test'
 
 export function TabsFooter () {
     const handleClick = () => {
-        console.log('Factorial')
-        console.log(addon.factorial(2))
+        console.log('Factorial', result)
     }
 
     return (
