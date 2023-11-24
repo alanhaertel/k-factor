@@ -1,0 +1,1 @@
+C:\Users\Alan\Desktop\Programacion\Proyectos\Ingenieria\k-factor\backend\target\wasm32-unknown-unknown\release\backend.wasm: C:\Users\Alan\Desktop\Programacion\Proyectos\Ingenieria\k-factor\backend\src\lib.rs
