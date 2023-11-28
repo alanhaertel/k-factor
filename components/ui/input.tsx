@@ -1,5 +1,6 @@
-import * as React from 'react'
+'use client'
 
+import * as React from 'react'
 import { cn } from '@/lib/utils'
 
 export interface InputProps
@@ -16,6 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 )}
                 ref={ref}
                 {...props}
+
             />
         )
     }

@@ -9,33 +9,26 @@ import { densityUnits, diameterUnits, massFlowUnits, viscosityUnits, volumeFlowU
 import { Card } from './card'
 import { useState } from 'react'
 import { firstDensityUnits, firstDiameterUnits, firstMassFlowUnits, firstViscosityUnits, firstVolumeFlowUnits } from '@/lib/consts'
+import { useInputStore } from '@/lib/useInputStore'
+import { useShallow } from 'zustand/react/shallow'
+import { useDebouncedCallback } from 'use-debounce'
 
 export function MainTabs () {
-    const [flowType, setFlowType] = useState('mass-flow')
-    const [massFlow, setMassFlow] = useState(firstMassFlowUnits)
-    const [diameter, setDiameter] = useState(firstDiameterUnits)
-    const [volumeFlow, setVolumeFlow] = useState(firstVolumeFlowUnits)
-    const [viscosity, setViscosity] = useState(firstViscosityUnits)
-    const [density, setDensity] = useState(firstDensityUnits)
+    const flowType = useInputStore.use.flowType()
+    const massFlow = useInputStore(useShallow(state => state.conditions.massFlow))
+    const density = useInputStore(useShallow(state => state.conditions.density))
+    const volumetricFlow = useInputStore(useShallow(state => state.conditions.volumetricFlow))
 
-    const handleFlowType = (newValue: string) => {
-        setFlowType(newValue)
-    }
-    const handleMassFlow = (newValue: string) => {
-        setMassFlow(newValue)
-    }
-    const handleDiameter = (newValue: string) => {
-        setDiameter(newValue)
-    }
-    const handleVolumeFlow = (newValue: string) => {
-        setVolumeFlow(newValue)
-    }
-    const handleViscosity = (newValue: string) => {
-        setViscosity(newValue)
-    }
-    const handleDensity = (newValue: string) => {
-        setDensity(newValue)
-    }
+    const [massFlowUnit, setMassFlowUnit] = useState(firstMassFlowUnits)
+    const [diameterUnit, setDiameterUnit] = useState(firstDiameterUnits)
+    const [volumeFlowUnit, setVolumeFlowUnit] = useState(firstVolumeFlowUnits)
+    const [viscosityUnit, setViscosityUnit] = useState(firstViscosityUnits)
+    const [densityUnit, setDensityUnit] = useState(firstDensityUnits)
+
+    const updateFlowType = useInputStore(useShallow(state => state.updateFlowType))
+    const updateCondition = useDebouncedCallback(useInputStore(useShallow(state => state.updateCondition)), 300)
+    const updateInput = useDebouncedCallback(useInputStore(useShallow(state => state.updateInput)), 300)
+    const updateMisc = useDebouncedCallback(useInputStore(useShallow(state => state.updateMisc)), 300)
 
     return (
         <Tabs defaultValue="flow-conditions" className="w-fit">
@@ -53,38 +46,38 @@ export function MainTabs () {
             <TabsContent value="flow-conditions">
                 <Card className ='grid grid-fit-3 gap-5 items-center h-72 p-3'>
                     <InputLabel>Flow Type</InputLabel>
-                    <SelectUnit value={flowType} onValueChange={handleFlowType} selectOptions={{ 'mass-flow': 'Mass', 'volumetric-flow': 'Volumetric' }}/>
+                    <SelectUnit onValueChange={newValue => { updateFlowType(newValue) }} value={flowType} selectOptions={{ 'mass-flow': 'Mass', 'volumetric-flow': 'Volumetric' }}/>
                     <br/>
 
                     {flowType === 'volumetric-flow' && (
                         <>
                             <InputLabel>Volumetric Flow</InputLabel>
-                            <Input required={true} type='number' className='max-w-[10rem] h-7' name='volumetric-flow'/>
-                            <SelectUnit onValueChange={handleVolumeFlow} value={volumeFlow} selectOptions={volumeFlowUnits}/>
+                            <Input defaultValue={volumetricFlow ?? ''} onChange={e => { updateCondition(e.target.value, 'volumetricFlow') }} required={true} type='number' className='max-w-[10rem] h-7' name='volumetric-flow'/>
+                            <SelectUnit onValueChange={newValue => { setVolumeFlowUnit(newValue) }} value={volumeFlowUnit} selectOptions={volumeFlowUnits}/>
                         </>
                     )}
 
                     {flowType === 'mass-flow' && (
                         <>
                             <InputLabel>Mass Flow</InputLabel>
-                            <Input type='number' className='max-w-[10rem] h-7' name='mass-flow'/>
-                            <SelectUnit onValueChange={handleMassFlow} value={massFlow} selectOptions={massFlowUnits}/>
+                            <Input defaultValue={massFlow ?? ''} onChange={e => { updateCondition(e.target.value, 'massFlow') }} type='number' className='max-w-[10rem] h-7' name='mass-flow'/>
+                            <SelectUnit onValueChange={newValue => { setMassFlowUnit(newValue) }} value={massFlowUnit} selectOptions={massFlowUnits}/>
                         </>
                     )}
 
                     <InputLabel>Viscosity</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='viscosity'/>
-                    <SelectUnit onValueChange={handleViscosity} value={viscosity} selectOptions={viscosityUnits}/>
+                    <Input onChange={e => { updateCondition(e.target.value, 'viscosity') }} type='number' className='max-w-[10rem] h-7' name='viscosity'/>
+                    <SelectUnit onValueChange={newValue => { setViscosityUnit(newValue) }} value={viscosityUnit} selectOptions={viscosityUnits}/>
 
                     <InputLabel>Inside Diameter</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
-                    <SelectUnit onValueChange={handleDiameter} value={diameter} selectOptions={diameterUnits}/>
+                    <Input onChange={e => { updateCondition(e.target.value, 'diameter') }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
+                    <SelectUnit onValueChange={newValue => { setDiameterUnit(newValue) }} value={diameterUnit} selectOptions={diameterUnits}/>
 
                     {flowType === 'volumetric-flow' && (
                         <>
                             <InputLabel>Density</InputLabel>
-                            <Input type='number' className='max-w-[10rem] h-7' name='density'/>
-                            <SelectUnit onValueChange={handleDensity} value={density} selectOptions={densityUnits}/>
+                            <Input defaultValue={density ?? ''} onChange={e => { updateCondition(e.target.value, 'density') }} type='number' className='max-w-[10rem] h-7' name='density'/>
+                            <SelectUnit onValueChange={newValue => { setDensityUnit(newValue) }} value={densityUnit} selectOptions={densityUnits}/>
                         </>
                     )}
 
@@ -94,140 +87,134 @@ export function MainTabs () {
             <TabsContent value="90-elbow">
                 <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
                     <InputLabel>Threaded, SR (R/D = 1)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C90-threaded'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'threaded90') }} type='number' className='max-w-[10rem] h-7' name='C90-threaded'/>
 
                     <InputLabel className='ml-16'>1 Weld (90° Angle)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C90-w1'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'weld190') }} type='number' className='max-w-[10rem] h-7' name='C90-w1'/>
 
                     <InputLabel>Flanged/Welded, SR (R/D = 1)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C90-flanged-welded'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'flanged90') }} type='number' className='max-w-[10rem] h-7' name='C90-flanged-welded'/>
 
                     <InputLabel className='ml-16'>2 Weld (45° Angle)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C90-w2'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'weld290') }} type='number' className='max-w-[10rem] h-7' name='C90-w2'/>
 
                     <InputLabel>All Types, LR (R/D = 1.5)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C90-lr'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'allTypes90') }} type='number' className='max-w-[10rem] h-7' name='C90-lr'/>
 
                     <InputLabel className='ml-16'>3 Weld (30° Angle)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C90-w3'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'weld390') }} type='number' className='max-w-[10rem] h-7' name='C90-w3'/>
 
                     <div className='col-span-2'/>
 
                     <InputLabel className='ml-16'>4 Weld (22.5° Angle)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C90-w4'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'weld490') }} type='number' className='max-w-[10rem] h-7' name='C90-w4'/>
 
                     <div className='col-span-2'/>
 
                     <InputLabel className='ml-16'>5 Weld (18° Angle)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C90-w5'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'weld590') }} type='number' className='max-w-[10rem] h-7' name='C90-w5'/>
                 </Card>
             </TabsContent>
             <TabsContent value="45-elbow">
                 <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
                     <InputLabel>All Types, SR (R/D = 1)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C45-sr'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'allTypesSR45') }} type='number' className='max-w-[10rem] h-7' name='C45-sr'/>
 
                     <InputLabel className='ml-16'>1 Weld (45° Angle)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C45-w1'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'weld145') }} type='number' className='max-w-[10rem] h-7' name='C45-w1'/>
 
                     <InputLabel>All Types LR (R/D = 1.5)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C45-lr'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'allTypesLR45') }} type='number' className='max-w-[10rem] h-7' name='C45-lr'/>
 
                     <InputLabel className='ml-16'>2 Welds (45° Angle)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C45-w2'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'weld245') }} type='number' className='max-w-[10rem] h-7' name='C45-w2'/>
                 </Card>
             </TabsContent>
             <TabsContent value="180">
                 <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
                     <InputLabel>Screwed, SR (R/D = 1)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='C180-screwed'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'screwed180') }} type='number' className='max-w-[10rem] h-7' name='C180-screwed'/>
 
                     <InputLabel className='ml-16'>Flanged/Welded, SR (R/D = 1)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="C180-flanged-welded"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'flanged180') }} type='number' className='max-w-[10rem] h-7' name="C180-flanged-welded"/>
 
                     <InputLabel>All Types, LR (R/D = 1.5)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="C180-lr"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'allTypes180') }} type='number' className='max-w-[10rem] h-7' name="C180-lr"/>
                 </Card>
             </TabsContent>
             <TabsContent value="tee-elbow">
                 <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
                     <InputLabel>Screwed, SR (R/D = 1)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Tee-el-screwed'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'screwedSRTee') }} type='number' className='max-w-[10rem] h-7' name='Tee-el-screwed'/>
 
                     <InputLabel className='ml-16'>Screwed, LR</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Tee-el-lr"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'screwedLRTee') }} type='number' className='max-w-[10rem] h-7' name="Tee-el-lr"/>
 
                     <InputLabel>Flanged/Welded, SR (R/D = 1)</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Tee-el-flanged-welded"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'flangedTee') }} type='number' className='max-w-[10rem] h-7' name="Tee-el-flanged-welded"/>
 
                     <InputLabel className='ml-16'>Stub-in-tpye Branch</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Tee-el-branch"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'stubInTee') }} type='number' className='max-w-[10rem] h-7' name="Tee-el-branch"/>
                 </Card>
             </TabsContent>
             <TabsContent value="tee-thorugh">
                 <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
                     <InputLabel>Screwed</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Tee-thr-screwed'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'screwedTeeThrough') }} type='number' className='max-w-[10rem] h-7' name='Tee-thr-screwed'/>
 
                     <InputLabel className='ml-16'>Flanged/Welded</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Tee-thr-flanged-welded"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'flangedTeeThrough') }} type='number' className='max-w-[10rem] h-7' name="Tee-thr-flanged-welded"/>
 
                     <InputLabel>Stub-in-type Branch</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Tee-thr-branch"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'stubInTeeThrough') }} type='number' className='max-w-[10rem] h-7' name="Tee-thr-branch"/>
                 </Card>
             </TabsContent>
             <TabsContent value="valves">
                 <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
                     <InputLabel>Full Line Size, &beta; = 1</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Valve-beta1'/>
+                    <Input onChange={e => { updateInput(e.target.value, 'valve1b') }} type='number' className='max-w-[10rem] h-7' name='Valve-beta1'/>
 
                     <InputLabel className='ml-16'>Globe, Standard</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-globe-std"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'globeStandard') }} type='number' className='max-w-[10rem] h-7' name="Valve-globe-std"/>
 
                     <InputLabel>Reduced Trim, &beta; = 0.9</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-beta09"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'valve09b') }} type='number' className='max-w-[10rem] h-7' name="Valve-beta09"/>
 
                     <InputLabel className='ml-16'>Globe, Angle</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-globe-angle"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'globeAngle') }} type='number' className='max-w-[10rem] h-7' name="Valve-globe-angle"/>
 
                     <InputLabel>Reduced Trim, &beta; = 0.8</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-beta08"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'valve08b') }} type='number' className='max-w-[10rem] h-7' name="Valve-beta08"/>
 
                     <InputLabel className='ml-16'>Diaphragm, dam type</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-diaphragm"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'diaphragm') }} type='number' className='max-w-[10rem] h-7' name="Valve-diaphragm"/>
 
                     <InputLabel>Butterfly</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-butterfly"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'butterfly') }} type='number' className='max-w-[10rem] h-7' name="Valve-butterfly"/>
 
                     <InputLabel className='ml-16'>Check Lift</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-check-lift"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'checkLift') }} type='number' className='max-w-[10rem] h-7' name="Valve-check-lift"/>
 
                     <InputLabel>Check Swing</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-check-swing"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'checkSwing') }} type='number' className='max-w-[10rem] h-7' name="Valve-check-swing"/>
 
                     <InputLabel className='ml-16'>Check Tilting-Disk</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name="Valve-check-disk"/>
+                    <Input onChange={e => { updateInput(e.target.value, 'checkDisk') }} type='number' className='max-w-[10rem] h-7' name="Valve-check-disk"/>
                 </Card>
             </TabsContent>
             <TabsContent value="misc">
                 <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
-                    <InputLabel>Square Inlet</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Misc-inlet-sq'/>
+                    <InputLabel>Inlet</InputLabel>
+                    <Input onChange={e => { updateMisc(e.target.value, 'inlet') }} type='number' className='max-w-[10rem] h-7' name='Misc-inlet-sq'/>
 
-                    <InputLabel className='ml-16'>Inward Inlet</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Misc-inlet-inward'/>
+                    <InputLabel className='ml-16'>Outlet</InputLabel>
+                    <Input onChange={e => { updateMisc(e.target.value, 'outlet') }} type='number' className='max-w-[10rem] h-7' name='Misc-inlet-inward'/>
 
-                    <InputLabel>Flush Inlet</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Misc-inlet-flush'/>
+                    <InputLabel>Enlargement</InputLabel>
+                    <Input onChange={e => { updateMisc(e.target.value, 'enlargement') }} type='number' className='max-w-[10rem] h-7' name='Misc-enlargement'/>
 
-                    <InputLabel className='ml-16'>Enlargment</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Misc-enlargment'/>
-
-                    <InputLabel>Contraction</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Misc-contraction'/>
-
-                    <InputLabel className='ml-16'>Orifice &beta; = 0.5</InputLabel>
-                    <Input type='number' className='max-w-[10rem] h-7' name='Misc-orifice'/>
+                    <InputLabel className='ml-16'>Contraction</InputLabel>
+                    <Input onChange={e => { updateMisc(e.target.value, 'contraction') }} type='number' className='max-w-[10rem] h-7' name='Misc-contraction'/>
                 </Card>
             </TabsContent>
 

@@ -13,7 +13,7 @@ export function SelectUnit ({ selectOptions, value, onValueChange }: SelectUnitP
     return (
         <Select value={value} onValueChange={onValueChange}>
             <SelectTrigger className='max-w-[13rem] min-w-[7rem] h-7'>
-                <SelectValue/>
+                <SelectValue />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
