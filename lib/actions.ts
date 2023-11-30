@@ -9,9 +9,13 @@ export async function caclulate (i: Inputs, c: Conditions, m: Misc, flowType: st
     let messageServer = 'Successfully Calculated'
 
     const re = reynolds(c, flowType)
+    let f: number
     if (re === 0) {
         messageServer = 'Reynolds number is 0, calculation cannot proceed.'
         throw new Error(messageServer)
+    } else {
+        // @ts-expect-error diameter already checked
+        f = fanning(re, c.diameter, c.roughness ?? 0)
     }
 
     for (const k of Object.keys(i)) {
@@ -31,9 +35,11 @@ export async function caclulate (i: Inputs, c: Conditions, m: Misc, flowType: st
     const k1 = k1Sum / re
     // @ts-expect-error diameter already checked
     const k2 = kInfSum * (1 + 1 / (c.diameter)) + kMiscSum
-    const totalK = k1 + k2
+    const totalK = (k1 + k2).toFixed(2)
+    // @ts-expect-error diameter already checked
+    const leq = (totalK * (c.diameter * 25.4) / 1000 / 4 / f).toFixed(2)
 
-    return { totalK, messageServer }
+    return { totalK, leq, messageServer }
 }
 
 function reynolds (c: Conditions, flowType: string) {
@@ -51,4 +57,13 @@ function reynolds (c: Conditions, flowType: string) {
     }
 
     return re
+}
+
+function fanning (re: number, diameter: number, roughness: number) {
+    const f =
+    (
+        (16 / re) ** 12 + (1 / ((2.457 / 2 ** 0.5 * Math.log((7 / re) ** 0.9 + 0.27 * roughness ?? 0 / (diameter * 25.4))) ** 16 + (37530 / 2 ** 0.5 / re) ** 16)) ** 1.5
+    ) ** (1 / 12)
+
+    return f
 }

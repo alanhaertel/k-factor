@@ -49,4 +49,13 @@ export type Conditions = {
     diameter: number | null
     volumetricFlow: number | null
     density: number | null
+    roughness: number | null
+}
+
+export type ConditionsErrors = {
+    massFlow: 'ok' | 'nok'
+    viscosity: 'ok' | 'nok'
+    diameter: 'ok' | 'nok'
+    volumetricFlow: 'ok' | 'nok'
+    density: 'ok' | 'nok'
 }

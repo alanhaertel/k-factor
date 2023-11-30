@@ -1,17 +1,18 @@
 import { create } from 'zustand'
 import { createSelectors } from './createSelectors'
-import { type Misc, type Conditions, type Inputs } from './types'
+import { type Misc, type Conditions, type Inputs, type ConditionsErrors } from './types'
 
 type Store = {
     inputs: Inputs
     misc: Misc
     conditions: Conditions
     flowType: string
+    conditionsErrors: ConditionsErrors
     updateFlowType: (value: string) => void
     updateInput: (value: string, inputName: keyof Inputs) => void
     updateCondition: (value: string, conditionName: keyof Conditions) => void
     updateMisc: (value: string, miscName: keyof Misc) => void
-
+    updateConditionsErrors: (value: 'ok' | 'nok', conditionsErrorsName: keyof ConditionsErrors) => void
 }
 
 const store = create<Store>((set) => ({
@@ -60,9 +61,18 @@ const store = create<Store>((set) => ({
         viscosity: null,
         diameter: null,
         volumetricFlow: null,
-        density: null
+        density: null,
+        roughness: null
     },
     flowType: 'mass-flow',
+
+    conditionsErrors: {
+        massFlow: 'ok',
+        viscosity: 'ok',
+        diameter: 'ok',
+        volumetricFlow: 'ok',
+        density: 'ok'
+    },
 
     updateFlowType: (value) => { set(() => ({ flowType: value })) },
     updateCondition: (value, conditionName) => {
@@ -83,6 +93,9 @@ const store = create<Store>((set) => ({
             value = '0'
         }
         set((state) => ({ misc: { ...state.misc, [miscName]: [parseFloat(value), state.misc[miscName][1]] } }))
+    },
+    updateConditionsErrors: (value, conditionsErrorsName) => {
+        set((state) => ({ conditionsErrors: { ...state.conditionsErrors, [conditionsErrorsName]: value } }))
     }
 }))
 

@@ -26,24 +26,28 @@ export function TabsFooter () {
     const { toast } = useToast()
 
     const updateTotalK = useOutputStore.use.updateTotalK()
+    const updateLeq = useOutputStore.use.updateLeq()
     const totalK = useOutputStore.use.totalK()
+    const leq = useOutputStore.use.leq()
 
     return (
         <>
             <Card className='flex items-center w-full my-2 p-3'>
                 <div className='flex mr-auto items-center gap-3'>
                     <InputLabel>Eq. Lenght</InputLabel>
-                    <Input className='max-w-[10rem] h-7 dark:bg-slate-900 bg-gray-200 cursor-default focus-visible:ring-transparent' readOnly={true} type='number'/>
+                    <Input value={leq} className='max-w-[10rem] h-7 dark:bg-slate-900 bg-gray-200 cursor-default focus-visible:ring-transparent' readOnly={true} type='number'/>
                     <InputLabel>&Sigma;k</InputLabel>
                     <Input value={totalK} className='max-w-[10rem] h-7 dark:bg-slate-900 bg-gray-200 cursor-default focus-visible:ring-transparent' readOnly={true} type='number'/>
                     <Button type='submit' onClick={() => {
                         startTransition(() => {
                             const { validation, messageValidation } = validateInputs(conditionsData, flowType)
                             console.log(conditionsData, flowType)
+                            console.log(inputsData)
                             if (validation) {
                                 caclulate(inputsData, conditionsData, miscData, flowType)
                                     .then(data => {
                                         updateTotalK(data.totalK.toString())
+                                        updateLeq(data.leq.toString())
                                         toast({
                                             title: 'Success',
                                             description: data.messageServer
