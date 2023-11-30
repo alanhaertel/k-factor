@@ -59,3 +59,11 @@ export type ConditionsErrors = {
     volumetricFlow: 'ok' | 'nok'
     density: 'ok' | 'nok'
 }
+
+export type ConditionsErrorsUpdate = Partial<{
+    massFlow: 'ok' | 'nok'
+    viscosity: 'ok' | 'nok'
+    diameter: 'ok' | 'nok'
+    volumetricFlow: 'ok' | 'nok'
+    density: 'ok' | 'nok'
+}>

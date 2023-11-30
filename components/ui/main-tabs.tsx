@@ -35,6 +35,8 @@ export function MainTabs () {
     const miscValues = useMisc(miscKeys)
     const updateMisc = useDebouncedCallback(useInputStore(useShallow(state => state.updateMisc)), 300)
 
+    const conditionError = useInputStore.use.conditionsErrors()
+
     return (
         <Tabs defaultValue="flow-conditions" className="w-fit">
             <TabsList>
@@ -57,7 +59,7 @@ export function MainTabs () {
                     {flowType === 'volumetric-flow' && (
                         <>
                             <InputLabel>Volumetric Flow</InputLabel>
-                            <Input onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.volumetricFlow} onChange={e => { updateCondition(e.target.value, 'volumetricFlow') }} required={true} type='number' className='max-w-[10rem] h-7' name='volumetric-flow'/>
+                            <Input conditionError={conditionError.volumetricFlow} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.volumetricFlow} onChange={e => { updateCondition(e.target.value, 'volumetricFlow') }} required={true} type='number' className='max-w-[10rem] h-7' name='volumetric-flow'/>
                             <SelectUnit onValueChange={newValue => { setVolumeFlowUnit(newValue) }} value={volumeFlowUnit} selectOptions={volumeFlowUnits}/>
                         </>
                     )}
@@ -65,23 +67,23 @@ export function MainTabs () {
                     {flowType === 'mass-flow' && (
                         <>
                             <InputLabel>Mass Flow</InputLabel>
-                            <Input onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.massFlow} onChange={e => { updateCondition(e.target.value, 'massFlow') }} type='number' className='max-w-[10rem] h-7' name='mass-flow'/>
+                            <Input conditionError={conditionError.massFlow} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.massFlow} onChange={e => { updateCondition(e.target.value, 'massFlow') }} type='number' className='max-w-[10rem] h-7' name='mass-flow'/>
                             <SelectUnit onValueChange={newValue => { setMassFlowUnit(newValue) }} value={massFlowUnit} selectOptions={massFlowUnits}/>
                         </>
                     )}
 
                     <InputLabel>Viscosity</InputLabel>
-                    <Input onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.viscosity} onChange={e => { updateCondition(e.target.value, 'viscosity') }} type='number' className='max-w-[10rem] h-7' name='viscosity'/>
+                    <Input conditionError={conditionError.viscosity} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.viscosity} onChange={e => { updateCondition(e.target.value, 'viscosity') }} type='number' className='max-w-[10rem] h-7' name='viscosity'/>
                     <SelectUnit onValueChange={newValue => { setViscosityUnit(newValue) }} value={viscosityUnit} selectOptions={viscosityUnits}/>
 
                     <InputLabel>Inside Diameter</InputLabel>
-                    <Input onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.diameter} onChange={e => { updateCondition(e.target.value, 'diameter') }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
+                    <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.diameter} onChange={e => { updateCondition(e.target.value, 'diameter') }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
                     <SelectUnit onValueChange={newValue => { setDiameterUnit(newValue) }} value={diameterUnit} selectOptions={diameterUnits}/>
 
                     {flowType === 'volumetric-flow' && (
                         <>
                             <InputLabel>Density</InputLabel>
-                            <Input onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.density} onChange={e => { updateCondition(e.target.value, 'density') }} type='number' className='max-w-[10rem] h-7' name='density'/>
+                            <Input conditionError={conditionError.density} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.density} onChange={e => { updateCondition(e.target.value, 'density') }} type='number' className='max-w-[10rem] h-7' name='density'/>
                             <SelectUnit onValueChange={newValue => { setDensityUnit(newValue) }} value={densityUnit} selectOptions={densityUnits}/>
                         </>
                     )}

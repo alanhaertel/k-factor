@@ -30,6 +30,8 @@ export function TabsFooter () {
     const totalK = useOutputStore.use.totalK()
     const leq = useOutputStore.use.leq()
 
+    const updateErrors = useInputStore.use.updateConditionsErrors()
+
     return (
         <>
             <Card className='flex items-center w-full my-2 p-3'>
@@ -40,14 +42,13 @@ export function TabsFooter () {
                     <Input value={totalK} className='max-w-[10rem] h-7 dark:bg-slate-900 bg-gray-200 cursor-default focus-visible:ring-transparent' readOnly={true} type='number'/>
                     <Button type='submit' onClick={() => {
                         startTransition(() => {
-                            const { validation, messageValidation } = validateInputs(conditionsData, flowType)
-                            console.log(conditionsData, flowType)
-                            console.log(inputsData)
+                            const { validation, messageValidation, errors } = validateInputs(conditionsData, flowType)
                             if (validation) {
                                 caclulate(inputsData, conditionsData, miscData, flowType)
                                     .then(data => {
                                         updateTotalK(data.totalK.toString())
                                         updateLeq(data.leq.toString())
+                                        updateErrors(errors)
                                         toast({
                                             title: 'Success',
                                             description: data.messageServer
@@ -67,6 +68,7 @@ export function TabsFooter () {
                                         })
                                     })
                             } else {
+                                updateErrors(errors)
                                 toast({
                                     title: 'Error',
                                     description: messageValidation,

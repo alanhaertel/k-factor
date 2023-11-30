@@ -12,7 +12,7 @@ type Store = {
     updateInput: (value: string, inputName: keyof Inputs) => void
     updateCondition: (value: string, conditionName: keyof Conditions) => void
     updateMisc: (value: string, miscName: keyof Misc) => void
-    updateConditionsErrors: (value: 'ok' | 'nok', conditionsErrorsName: keyof ConditionsErrors) => void
+    updateConditionsErrors: (value: ConditionsErrors) => void
 }
 
 const store = create<Store>((set) => ({
@@ -94,8 +94,8 @@ const store = create<Store>((set) => ({
         }
         set((state) => ({ misc: { ...state.misc, [miscName]: [parseFloat(value), state.misc[miscName][1]] } }))
     },
-    updateConditionsErrors: (value, conditionsErrorsName) => {
-        set((state) => ({ conditionsErrors: { ...state.conditionsErrors, [conditionsErrorsName]: value } }))
+    updateConditionsErrors: (values: ConditionsErrors) => {
+        set(() => ({ conditionsErrors: values }))
     }
 }))
 
