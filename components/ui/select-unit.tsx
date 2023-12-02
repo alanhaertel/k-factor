@@ -1,4 +1,4 @@
-import type { Units } from '@/lib/units'
+import type { Units } from '@/lib/types'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './select'
 
 type SelectUnitProps = {

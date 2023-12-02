@@ -1,15 +1,14 @@
 'use server'
 
-import voltageConverter from './convertet'
-import converter from './convertet'
 import { type Misc, type Conditions, type Inputs, type ConditionsValues } from './types'
-import voltage from './voltage'
+import voltage from './units/voltage'
+import massFlow from './units/mass-flow'
 
 export async function caclulate (i: Inputs, c: Conditions, m: Misc, flowType: string) {
     let kSum = 0
     let messageServer = 'Successfully Calculated'
 
-    const massFlow = 35
+    const massFlowvar = 35
     const volumetricFlow = 30
     const density = 35
     const viscosity = 35
@@ -17,7 +16,7 @@ export async function caclulate (i: Inputs, c: Conditions, m: Misc, flowType: st
     const roughness = 35
 
     const conditions = {
-        massFlow,
+        massFlowvar,
         volumetricFlow,
         density,
         viscosity,
@@ -50,7 +49,7 @@ export async function caclulate (i: Inputs, c: Conditions, m: Misc, flowType: st
     const totalK = +kSum.toFixed(2)
     const leq = +(totalK * (conditions.diameter / 1000) / 4 / f).toFixed(2)
 
-    const newValue = voltage(20).from('V').to('kV')
+    const newValue = massFlow(1800).from('kg/s').to('kg/h')
     console.log('Voltage conversion:', newValue)
 
     return { totalK, leq, messageServer }

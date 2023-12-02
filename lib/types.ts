@@ -77,6 +77,11 @@ export type ConditionsErrorsUpdate = Partial<{
     density: 'ok' | 'nok'
 }>
 
+export type FlowTypeUnits = {
+    'mass-flow': 'Mass'
+    'volumetric-flow': 'Volumetric'
+}
+
 export type MassFlowUnits = {
     kgs: 'kg/s'
     kgh: 'kg/h'
@@ -123,3 +128,5 @@ export type DiameterUnits = {
     inch: 'in'
     foot: 'ft'
 }
+
+export type Units = MassFlowUnits | VolumeFlowUnits | DensityUnits | ViscosityUnits | DiameterUnits | FlowTypeUnits
