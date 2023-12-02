@@ -44,12 +44,21 @@ export type NumericInputs = {
 }
 
 export type Conditions = {
-    massFlow: number | null
-    viscosity: number | null
-    diameter: number | null
-    volumetricFlow: number | null
-    density: number | null
-    roughness: number | null
+    massFlow: [number | null, MassFlowUnits[keyof MassFlowUnits]]
+    viscosity: [number | null, ViscosityUnits[keyof ViscosityUnits]]
+    diameter: [number | null, DiameterUnits[keyof DiameterUnits]]
+    volumetricFlow: [number | null, VolumeFlowUnits[keyof VolumeFlowUnits]]
+    density: [number | null, DensityUnits[keyof DensityUnits]]
+    roughness: [number | null, DiameterUnits[keyof DiameterUnits]]
+}
+
+export type ConditionsValues = {
+    massFlow: number
+    viscosity: number
+    diameter: number
+    volumetricFlow: number
+    density: number
+    roughness: number
 }
 
 export type ConditionsErrors = {
@@ -67,3 +76,50 @@ export type ConditionsErrorsUpdate = Partial<{
     volumetricFlow: 'ok' | 'nok'
     density: 'ok' | 'nok'
 }>
+
+export type MassFlowUnits = {
+    kgs: 'kg/s'
+    kgh: 'kg/h'
+    kgday: 'kg/day'
+    lbs: 'lb/s'
+    lbh: 'lb/h'
+    lbday: 'lb/day'
+    tnyear: 'tonne/year'
+}
+
+export type VolumeFlowUnits = {
+    m3h: 'm³/h'
+    m3day: 'm³/day'
+    ft3h: 'ft³/h'
+    ft3day: 'ft³/day'
+    galh: 'gal/h'
+    galday: 'gal/day'
+    m3s: 'm³/s'
+    ft3s: 'ft³/s'
+    gals: 'gal/s'
+}
+
+export type DensityUnits = {
+    kgm3: 'kg/m³'
+    lbft3: 'lb/ft³'
+    gmcm3: 'g/cm³'
+    kgft3: 'kg/ft³'
+    lbm3: 'lb/m³'
+}
+
+export type ViscosityUnits = {
+    cP: 'cP'
+    PaS: 'Pa·s'
+    lbftsh: 'lb·ft/s·h'
+    kgmsh: 'kg/m·s·h'
+    lbftsft: 'lb·ft/s·ft'
+    kgmsm: 'kg/m·s·m'
+}
+
+export type DiameterUnits = {
+    millimeter: 'mm'
+    centimeter: 'cm'
+    meter: 'm'
+    inch: 'in'
+    foot: 'ft'
+}

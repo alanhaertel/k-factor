@@ -1,6 +1,6 @@
-export type Units = Record<string, string>
+import { type VolumeFlowUnits, type MassFlowUnits, type DensityUnits, type ViscosityUnits, type DiameterUnits } from './types'
 
-export const massFlowUnits: Units = {
+export const massFlowUnits: MassFlowUnits = {
     kgs: 'kg/s',
     kgh: 'kg/h',
     kgday: 'kg/day',
@@ -10,7 +10,7 @@ export const massFlowUnits: Units = {
     tnyear: 'tonne/year'
 }
 
-export const volumeFlowUnits: Units = {
+export const volumeFlowUnits: VolumeFlowUnits = {
     m3h: 'm³/h',
     m3day: 'm³/day',
     ft3h: 'ft³/h',
@@ -22,16 +22,7 @@ export const volumeFlowUnits: Units = {
     gals: 'gal/s'
 }
 
-export const sVolumeFlowUnits: Units = {
-    SCMD: 'SCMD',
-    MSCMD: 'MSCMD',
-    MMSCMD: 'MMSCMD',
-    SCFD: 'SCFD',
-    MSCFD: 'MSCFD',
-    MMSCFD: 'MMSCFD'
-}
-
-export const densityUnits = {
+export const densityUnits: DensityUnits = {
     kgm3: 'kg/m³',
     lbft3: 'lb/ft³',
     gmcm3: 'g/cm³',
@@ -39,7 +30,7 @@ export const densityUnits = {
     lbm3: 'lb/m³'
 }
 
-export const viscosityUnits = {
+export const viscosityUnits: ViscosityUnits = {
     cP: 'cP',
     PaS: 'Pa·s',
     lbftsh: 'lb·ft/s·h',
@@ -48,84 +39,10 @@ export const viscosityUnits = {
     kgmsm: 'kg/m·s·m'
 }
 
-export const surfaceTensionUnits = {
-    mNm: 'mN/m',
-    Nm: 'N/m',
-    dynescm: 'dyne/cm',
-    lbfft: 'lb/ft',
-    ozfin: 'ozf/in',
-    lbfin: 'lb/in'
-}
-
-export const temperatureUnits: Units = {
-    celsius: '°C',
-    fahrenheit: '°F',
-    kelvin: 'K'
-}
-
-export const pressureUnits: Units = {
-    pascal: 'Pa',
-    kilopascal: 'kPa',
-    megapascal: 'MPa',
-    bar: 'bar',
-    atmosphere: 'atm',
-    psi: 'psi',
-    kgcm2: 'kg/cm²'
-}
-
-export const diameterUnits: Units = {
+export const diameterUnits: DiameterUnits = {
     millimeter: 'mm',
     centimeter: 'cm',
     meter: 'm',
     inch: 'in',
     foot: 'ft'
-}
-
-export const areaUnits: Units = {
-    squareMeter: 'm²',
-    squareKilometer: 'km²',
-    squareInch: 'in²',
-    squareFoot: 'ft²',
-    squareMillimeter: 'mm²',
-    squareCentimeter: 'cm²'
-}
-
-export const velocityUnits: Units = {
-    metersPerSecond: 'm/s',
-    metersPerHour: 'm/h',
-    kilometersPerHour: 'km/h',
-    feetPerSecond: 'ft/s',
-    feetPerHour: 'ft/h',
-    milesPerHour: 'mph',
-    millimetersPerSecond: 'mm/s',
-    centimetersPerSecond: 'cm/s'
-}
-
-export const maxAllowanceStressUnits: Units = {
-    psi: 'psi',
-    megapascal: 'MPa',
-    kilopascal: 'kPa',
-    kgcm2: 'kg/cm²'
-}
-
-export const thicknessUnits: Units = {
-    millimeter: 'mm',
-    centimeter: 'cm',
-    inch: 'in'
-}
-
-export const volumeUnits: Units = {
-    m3: 'm³',
-    ft3: 'ft³',
-    gal: 'gal',
-    liter: 'L',
-    cm3: 'cm³'
-}
-
-export const weightUnits: Units = {
-    kg: 'kg',
-    lb: 'lb',
-    g: 'g',
-    ton: 'ton',
-    mg: 'mg'
 }
