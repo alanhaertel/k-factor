@@ -1,12 +1,13 @@
 import { create } from 'zustand'
 import { createSelectors } from './createSelectors'
-import { type Misc, type Conditions, type Inputs, type ConditionsErrors } from './types'
+import { type Misc, type Conditions, type Inputs, type ConditionsErrors, type ConditionsUnits } from './types'
 import { firstDensityString, firstDiameterString, firstMassFlowString, firstViscosityString, firstVolumeFlowString } from './consts'
 
 type Store = {
     inputs: Inputs
     misc: Misc
     conditions: Conditions
+    conditionsUnits: ConditionsUnits
     flowType: string
     conditionsErrors: ConditionsErrors
     updateFlowType: (value: string) => void
@@ -14,6 +15,7 @@ type Store = {
     updateCondition: (value: string, conditionName: keyof Conditions) => void
     updateMisc: (value: string, miscName: keyof Misc) => void
     updateConditionsErrors: (value: ConditionsErrors) => void
+    updateConditionUnit: (value: string, conditionUnitName: keyof Conditions) => void
 }
 
 const store = create<Store>((set) => ({
@@ -58,14 +60,23 @@ const store = create<Store>((set) => ({
         outlet: [0, 1]
     },
     conditions: {
-        massFlow: [null, firstMassFlowString],
-        viscosity: [null, firstViscosityString],
-        diameter: [null, firstDiameterString],
-        volumetricFlow: [null, firstVolumeFlowString],
-        density: [null, firstDensityString],
-        roughness: [null, firstDiameterString]
+        massFlow: null,
+        viscosity: null,
+        diameter: null,
+        volumetricFlow: null,
+        density: null,
+        roughness: null
     },
     flowType: 'mass-flow',
+
+    conditionsUnits: {
+        massFlow: firstMassFlowString,
+        viscosity: firstViscosityString,
+        diameter: firstDiameterString,
+        volumetricFlow: firstVolumeFlowString,
+        density: firstDensityString,
+        roughness: firstDiameterString
+    },
 
     conditionsErrors: {
         massFlow: 'ok',
@@ -97,6 +108,9 @@ const store = create<Store>((set) => ({
     },
     updateConditionsErrors: (values: ConditionsErrors) => {
         set(() => ({ conditionsErrors: values }))
+    },
+    updateConditionUnit: (value, conditionUnitName) => {
+        set((state) => ({ conditionsUnits: { ...state.conditionsUnits, [conditionUnitName]: value } }))
     }
 }))
 

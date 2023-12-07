@@ -39,26 +39,22 @@ export type Misc = {
     outlet: [number, number]
 }
 
-export type NumericInputs = {
-    [K in keyof Inputs]: number;
+export type ConditionsUnits = {
+    massFlow: keyof MassFlowUnits
+    viscosity: keyof ViscosityUnits
+    diameter: keyof DiameterUnits
+    volumetricFlow: keyof VolumeFlowUnits
+    density: keyof DensityUnits
+    roughness: keyof DiameterUnits
 }
 
 export type Conditions = {
-    massFlow: [number | null, MassFlowUnits[keyof MassFlowUnits]]
-    viscosity: [number | null, ViscosityUnits[keyof ViscosityUnits]]
-    diameter: [number | null, DiameterUnits[keyof DiameterUnits]]
-    volumetricFlow: [number | null, VolumeFlowUnits[keyof VolumeFlowUnits]]
-    density: [number | null, DensityUnits[keyof DensityUnits]]
-    roughness: [number | null, DiameterUnits[keyof DiameterUnits]]
-}
-
-export type ConditionsValues = {
-    massFlow: number
-    viscosity: number
-    diameter: number
-    volumetricFlow: number
-    density: number
-    roughness: number
+    massFlow: number | null
+    viscosity: number | null
+    diameter: number | null
+    volumetricFlow: number | null
+    density: number | null
+    roughness: number | null
 }
 
 export type ConditionsErrors = {
@@ -83,50 +79,50 @@ export type FlowTypeUnits = {
 }
 
 export type MassFlowUnits = {
-    kgs: 'kg/s'
-    kgh: 'kg/h'
-    kgday: 'kg/day'
-    lbs: 'lb/s'
-    lbh: 'lb/h'
-    lbday: 'lb/day'
-    tnyear: 'tonne/year'
+    'kg/s': 'kg/s'
+    'kg/h': 'kg/h'
+    'kg/day': 'kg/day'
+    'lb/s': 'lb/s'
+    'lb/h': 'lb/h'
+    'lb/day': 'lb/day'
+    'ton/year': 'ton/year'
 }
 
 export type VolumeFlowUnits = {
-    m3h: 'm³/h'
-    m3day: 'm³/day'
-    ft3h: 'ft³/h'
-    ft3day: 'ft³/day'
-    galh: 'gal/h'
-    galday: 'gal/day'
-    m3s: 'm³/s'
-    ft3s: 'ft³/s'
-    gals: 'gal/s'
+    'm3/h': 'm³/h'
+    'm3/day': 'm³/day'
+    'ft3/h': 'ft³/h'
+    'ft3/day': 'ft³/day'
+    'gal/h': 'gal/h'
+    'gal/day': 'gal/day'
+    'm3/s': 'm³/s'
+    'ft3/s': 'ft³/s'
+    'gal/s': 'gal/s'
 }
 
 export type DensityUnits = {
-    kgm3: 'kg/m³'
-    lbft3: 'lb/ft³'
-    gmcm3: 'g/cm³'
-    kgft3: 'kg/ft³'
-    lbm3: 'lb/m³'
+    'kg/m3': 'kg/m³'
+    'lb/ft3': 'lb/ft³'
+    'g/cm3': 'g/cm³'
+    'kg/ft3': 'kg/ft³'
+    'lb/m3': 'lb/m³'
 }
 
 export type ViscosityUnits = {
     cP: 'cP'
-    PaS: 'Pa·s'
-    lbftsh: 'lb·ft/s·h'
-    kgmsh: 'kg/m·s·h'
-    lbftsft: 'lb·ft/s·ft'
-    kgmsm: 'kg/m·s·m'
+    Pas: 'Pa·s'
+    'lb/fts': 'lb/ft·s'
+    'kg/mh': 'kg/m·h'
+    'lb/fth': 'lb/ft·h'
+    'kg/ms': 'kg/m·s'
 }
 
 export type DiameterUnits = {
-    millimeter: 'mm'
-    centimeter: 'cm'
-    meter: 'm'
-    inch: 'in'
-    foot: 'ft'
+    mm: 'mm'
+    cm: 'cm'
+    m: 'm'
+    in: 'in'
+    ft: 'ft'
 }
 
 export type Units = MassFlowUnits | VolumeFlowUnits | DensityUnits | ViscosityUnits | DiameterUnits | FlowTypeUnits

@@ -1,37 +1,61 @@
 'use server'
 
-import { type Misc, type Conditions, type Inputs, type ConditionsValues } from './types'
-import voltage from './units/voltage'
-import massFlow from './units/mass-flow'
+import { type Misc, type Conditions, type Inputs, type ConditionsUnits } from './types'
+import { z } from 'zod'
+import { density, length, massFlow, viscosity, volumetricFlow } from 'engineering-unit-converter'
 
-export async function caclulate (i: Inputs, c: Conditions, m: Misc, flowType: string) {
+type VerifiedConditions = {
+    massFlow: number
+    viscosity: number
+    diameter: number
+    roughness: number
+}
+
+export async function caclulate (i: Inputs, c: Conditions, u: ConditionsUnits, m: Misc, flowType: string) {
     let kSum = 0
-    let messageServer = 'Successfully Calculated'
+    let conditions: VerifiedConditions
 
-    const massFlowvar = 35
-    const volumetricFlow = 30
-    const density = 35
-    const viscosity = 35
-    const diameter = 35
-    const roughness = 35
+    const ConditionsSchema = z.discriminatedUnion('flow-type', [
+        z.object({
+            'flow-type': z.literal('mass-flow'),
+            data: z.object({
+                massFlow: z.number().transform((val) => massFlow(val).from(u.massFlow).to('kg/h')),
+                viscosity: z.number().transform((val) => viscosity(val).from(u.viscosity).to('cP')),
+                diameter: z.number().transform((val) => length(val).from(u.diameter).to('mm')),
+                roughness: z.number().nullable().transform((val) => length(val ?? 0).from(u.roughness).to('mm'))
+            })
+        }),
+        z.object({
+            'flow-type': z.literal('volumetric-flow'),
+            data: z.object({
+                volumetricFlow: z.number().transform((val) => volumetricFlow(val).from(u.volumetricFlow).to('m3/h')),
+                density: z.number().transform((val) => density(val).from(u.density).to('kg/m3')),
+                viscosity: z.number().transform((val) => viscosity(val).from(u.viscosity).to('cP')),
+                diameter: z.number().transform((val) => length(val).from(u.diameter).to('mm')),
+                roughness: z.number().nullable().transform((val) => length(val ?? 0).from(u.roughness).to('mm'))
+            })
+        })
+    ])
 
-    const conditions = {
-        massFlowvar,
-        volumetricFlow,
-        density,
-        viscosity,
-        diameter,
-        roughness
-    }
-
-    const re = reynolds(conditions, flowType)
-    let f: number
-    if (re === 0) {
-        messageServer = 'Reynolds number is 0, calculation cannot proceed.'
-        throw new Error(messageServer)
+    const parsedConditions = ConditionsSchema.parse({ 'flow-type': flowType, data: c })
+    if (parsedConditions['flow-type'] === 'mass-flow') {
+        conditions = {
+            massFlow: parsedConditions.data.massFlow,
+            viscosity: parsedConditions.data.viscosity,
+            diameter: parsedConditions.data.diameter,
+            roughness: parsedConditions.data.roughness
+        }
     } else {
-        f = fanning(re, conditions.diameter, conditions.roughness ?? 0)
+        conditions = {
+            massFlow: parsedConditions.data.density * parsedConditions.data.volumetricFlow,
+            viscosity: parsedConditions.data.viscosity,
+            diameter: parsedConditions.data.diameter,
+            roughness: parsedConditions.data.roughness
+        }
     }
+
+    const re = reynolds(conditions)
+    const f = fanning(re, conditions.diameter, conditions.roughness)
 
     for (const k of Object.keys(i)) {
         const k1 = i[k as keyof Inputs][1] / re
@@ -49,25 +73,12 @@ export async function caclulate (i: Inputs, c: Conditions, m: Misc, flowType: st
     const totalK = +kSum.toFixed(2)
     const leq = +(totalK * (conditions.diameter / 1000) / 4 / f).toFixed(2)
 
-    const newValue = massFlow(1800).from('kg/s').to('kg/h')
-    console.log('Voltage conversion:', newValue)
-
-    return { totalK, leq, messageServer }
+    return { totalK, leq }
 }
 
-function reynolds (c: ConditionsValues, flowType: string) {
-    let flow: number
-    let re: number
-    if (flowType === 'mass-flow' && c.diameter != null && c.viscosity != null && c.massFlow != null) {
-        flow = c.massFlow
-        re = (flow / 3600 / (Math.PI / 4 * ((c.diameter) / 1000) ** 2)) * (c.diameter) / c.viscosity
-    } else if (flowType === 'volumetric-flow' && c.diameter != null && c.viscosity != null && c.volumetricFlow != null && c.density != null) {
-        flow = c.volumetricFlow * c.density
-        re = (flow / 3600 / (Math.PI / 4 * ((c.diameter) / 1000) ** 2)) * (c.diameter) / c.viscosity
-    } else {
-        re = 0
-    }
-    console.log('reynolds', re)
+function reynolds (c: VerifiedConditions) {
+    const re = (c.massFlow / 3600 / (Math.PI / 4 * ((c.diameter) / 1000) ** 2)) * (c.diameter) / c.viscosity
+
     return re
 }
 
@@ -80,6 +91,6 @@ function fanning (re: number, diameter: number, roughness: number) {
           (37530 / (2 ** 0.5) / re) ** 16
         )
     ) ** (1.5 / 12)
-    console.log('fanning', f)
+
     return f
 }

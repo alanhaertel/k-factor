@@ -12,7 +12,6 @@ import { caclulate } from '@/lib/actions'
 import { useOutputStore } from '@/lib/useOutputStore'
 import { useShallow } from 'zustand/react/shallow'
 import { validateInputs } from '@/lib/utils'
-import { Toaster } from './toaster'
 import { useToast } from './use-toast'
 
 export function TabsFooter () {
@@ -21,6 +20,7 @@ export function TabsFooter () {
     const inputsData = useInputStore(useShallow(state => state.inputs))
     const flowType = useInputStore(useShallow(state => state.flowType))
     const conditionsData = useInputStore(useShallow(state => state.conditions))
+    const conditionsUnitsData = useInputStore(useShallow(state => state.conditionsUnits))
     const miscData = useInputStore(useShallow(state => state.misc))
 
     const { toast } = useToast()
@@ -44,26 +44,20 @@ export function TabsFooter () {
                         startTransition(() => {
                             const { validation, messageValidation, errors } = validateInputs(conditionsData, flowType)
                             if (validation) {
-                                caclulate(inputsData, conditionsData, miscData, flowType)
+                                caclulate(inputsData, conditionsData, conditionsUnitsData, miscData, flowType)
                                     .then(data => {
                                         updateTotalK(data.totalK.toString())
                                         updateLeq(data.leq.toString())
                                         updateErrors(errors)
                                         toast({
                                             title: 'Success',
-                                            description: data.messageServer
+                                            description: 'Successfully Calculated'
                                         })
                                     })
                                     .catch(e => {
-                                        console.log(e)
-                                        let toastDescription = 'Internal Server Error'
-
-                                        if (e instanceof Error && e.message === 'Reynolds number is 0, calculation cannot proceed.') {
-                                            toastDescription = e.message
-                                        }
                                         toast({
                                             title: 'Error',
-                                            description: toastDescription,
+                                            description: 'Internal server error',
                                             variant: 'destructive'
                                         })
                                     })
@@ -87,7 +81,7 @@ export function TabsFooter () {
                     </a>
                 </div>
             </Card>
-            <Toaster/>
+
         </>
     )
 }
