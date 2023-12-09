@@ -42,7 +42,7 @@ export function TabsFooter () {
                     <Input value={totalK} className='max-w-[10rem] h-7 dark:bg-slate-900 bg-gray-200 cursor-default focus-visible:ring-transparent' readOnly={true} type='number'/>
                     <Button type='submit' onClick={() => {
                         startTransition(() => {
-                            const { validation, messageValidation, errors } = validateInputs(conditionsData, flowType)
+                            const { validation, errorMessage, errors } = validateInputs(conditionsData, flowType)
                             if (validation) {
                                 caclulate(inputsData, conditionsData, conditionsUnitsData, miscData, flowType)
                                     .then(data => {
@@ -65,8 +65,9 @@ export function TabsFooter () {
                                 updateErrors(errors)
                                 toast({
                                     title: 'Error',
-                                    description: messageValidation,
-                                    variant: 'destructive'
+                                    description: errorMessage,
+                                    variant: 'destructive',
+                                    className: 'whitespace-pre-wrap'
                                 })
                             }
                         })

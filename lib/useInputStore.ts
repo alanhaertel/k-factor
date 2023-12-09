@@ -83,7 +83,8 @@ const store = create<Store>((set) => ({
         viscosity: 'ok',
         diameter: 'ok',
         volumetricFlow: 'ok',
-        density: 'ok'
+        density: 'ok',
+        roughness: 'ok'
     },
 
     updateFlowType: (value) => { set(() => ({ flowType: value })) },

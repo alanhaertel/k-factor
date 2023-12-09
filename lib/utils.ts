@@ -9,138 +9,58 @@ export function cn (...inputs: ClassValue[]) {
 
 export function validateInputs (conditionsData: Conditions, flowType: string) {
     let validation = true
-    let messageValidation = ''
-
-    const ConditionsSchema = z.discriminatedUnion('flow-type', [
-        z.object({
-            'flow-type': z.literal('mass-flow'),
-            data: z.object({
-                massFlow: z.number().positive(),
-                viscosity: z.number().positive(),
-                diameter: z.number().positive(),
-                roughness: z.number().nonnegative().nullable().transform(val => val ?? 0)
-            })
-        }),
-        z.object({
-            'flow-type': z.literal('volumetric-flow'),
-            data: z.object({
-                volumetricFlow: z.number().positive(),
-                density: z.number().positive(),
-                viscosity: z.number().positive(),
-                diameter: z.number().positive(),
-                roughness: z.number().nonnegative().nullable().transform(val => val ?? 0)
-            })
-        })
-    ])
-
-    const parsedConditions = ConditionsSchema.safeParse({ 'flow-type': flowType, data: conditionsData })
-    console.log(parsedConditions)
-    if (!parsedConditions.success) {
-        console.log(parsedConditions.error.format())
-    }
+    let errorMessage = ''
 
     const errors: ConditionsErrors = {
         massFlow: 'ok',
         viscosity: 'ok',
         diameter: 'ok',
         volumetricFlow: 'ok',
-        density: 'ok'
+        density: 'ok',
+        roughness: 'ok'
     }
 
-    for (const key of Object.keys(conditionsData)) {
-        const value = conditionsData[key as keyof Conditions]
+    const ConditionsSchema = z.discriminatedUnion('flow-type', [
+        z.object({
+            'flow-type': z.literal('mass-flow'),
+            data: z.object({
+                massFlow: z.number({ invalid_type_error: 'Fill Mass Flow Input.' }).positive({ message: 'Mass Flow must be greater than 0.' }),
+                viscosity: z.number({ invalid_type_error: 'Fill Viscosity Input.' }).positive({ message: 'Viscosity must be greater than 0.' }),
+                diameter: z.number({ invalid_type_error: 'Fill Diameter Input.' }).positive({ message: 'Diameter must be greater than 0.' }),
+                roughness: z.number().nonnegative({ message: 'Roughness must be a positive number.' }).nullable().transform(val => val ?? 0)
+            })
+        }),
+        z.object({
+            'flow-type': z.literal('volumetric-flow'),
+            data: z.object({
+                volumetricFlow: z.number({ invalid_type_error: 'Fill Volumetric Flow Input.' }).positive({ message: 'Mass Flow must be greater than 0.' }),
+                density: z.number({ invalid_type_error: 'Fill Density Input.' }).positive({ message: 'Density must be greater than 0.' }),
+                viscosity: z.number({ invalid_type_error: 'Fill Viscosiyu Input.' }).positive({ message: 'Viscosity must be greater than 0.' }),
+                diameter: z.number({ invalid_type_error: 'Fill Diameter Input.' }).positive({ message: 'Diameter must be greater than 0.' }),
+                roughness: z.number().nonnegative({ message: 'Roughness must be greater than 0.' }).nullable().transform(val => val ?? 0)
+            })
+        })
+    ])
 
-        if (key === 'roughness') {
-            continue
+    const parsedConditions = ConditionsSchema.safeParse({ 'flow-type': flowType, data: conditionsData })
+
+    if (!parsedConditions.success) {
+        validation = false
+
+        const errorData = parsedConditions.error.flatten().fieldErrors.data
+        if (Array.isArray(errorData)) {
+            for (const errorItem of errorData) {
+                errorMessage += `● ${errorItem}\n`
+            }
         }
 
-        if (flowType === 'mass-flow' && ['volumetricFlow', 'density'].includes(key)) {
-            continue
-        } else if (flowType === 'volumetric-flow' && ['massFlow'].includes(key)) {
-            continue
-        } else if (value === null) {
-            validation = false
-            messageValidation = 'Complete flow conditions inputs'
-            errors[key as keyof ConditionsErrors] = 'nok'
-        } else if (value === 0) {
-            messageValidation = 'Zero is not a valid flow condition input'
-            validation = false
-            errors[key as keyof ConditionsErrors] = 'nok'
-        }
+        const errorNames = parsedConditions.error.format().data
+        Object.keys(errorNames ?? {}).forEach((key) => {
+            if (key !== '_errors' && key in errors) {
+                errors[key as keyof ConditionsErrors] = 'nok'
+            }
+        })
     }
-    return { validation, messageValidation, errors }
-}
 
-const mock = {
-    success: false,
-    error: {
-        issues: [
-            {
-                code: 'invalid_type',
-                expected: 'number',
-                received: 'null',
-                path: [
-                    'data',
-                    'massFlow'
-                ],
-                message: 'Expected number, received null'
-            },
-            {
-                code: 'invalid_type',
-                expected: 'number',
-                received: 'null',
-                path: [
-                    'data',
-                    'viscosity'
-                ],
-                message: 'Expected number, received null'
-            },
-            {
-                code: 'invalid_type',
-                expected: 'number',
-                received: 'null',
-                path: [
-                    'data',
-                    'diameter'
-                ],
-                message: 'Expected number, received null'
-            }
-        ],
-        name: 'ZodError'
-    },
-    _error: {
-        issues: [
-            {
-                code: 'invalid_type',
-                expected: 'number',
-                received: 'null',
-                path: [
-                    'data',
-                    'massFlow'
-                ],
-                message: 'Expected number, received null'
-            },
-            {
-                code: 'invalid_type',
-                expected: 'number',
-                received: 'null',
-                path: [
-                    'data',
-                    'viscosity'
-                ],
-                message: 'Expected number, received null'
-            },
-            {
-                code: 'invalid_type',
-                expected: 'number',
-                received: 'null',
-                path: [
-                    'data',
-                    'diameter'
-                ],
-                message: 'Expected number, received null'
-            }
-        ],
-        name: 'ZodError'
-    }
+    return { validation, errorMessage, errors }
 }

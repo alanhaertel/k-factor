@@ -63,6 +63,7 @@ export type ConditionsErrors = {
     diameter: 'ok' | 'nok'
     volumetricFlow: 'ok' | 'nok'
     density: 'ok' | 'nok'
+    roughness: 'ok' | 'nok'
 }
 
 export type ConditionsErrorsUpdate = Partial<{

@@ -85,7 +85,7 @@ export function MainTabs () {
                     )}
 
                     <InputLabel>Roughness (&epsilon;)</InputLabel>
-                    <Input defaultValue={conditionsValues.roughness} onBlur={() => { updateCondition.flush() }} onChange={e => { updateCondition(e.target.value, 'roughness') }} type='number' className='max-w-[10rem] h-7' name='roughness'/>
+                    <Input conditionError={conditionError.roughness} defaultValue={conditionsValues.roughness} onBlur={() => { updateCondition.flush() }} onChange={e => { updateCondition(e.target.value, 'roughness') }} type='number' className='max-w-[10rem] h-7' name='roughness'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'roughness') }} value={conditionsUnitsValues.roughness} selectOptions={diameterUnits}/>
 
                 </Card>
