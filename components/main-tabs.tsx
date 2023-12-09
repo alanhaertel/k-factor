@@ -6,7 +6,7 @@ import { ModeToggle } from '@/components/ui/mode-toogle'
 import { SelectUnit } from '@/components/ui/select-unit'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { densityUnits, diameterUnits, massFlowUnits, viscosityUnits, volumeFlowUnits } from '@/lib/units'
-import { Card } from './card'
+import { Card } from './ui/card'
 import { conditionsKeys, inputsKeys, miscKeys } from '@/lib/consts'
 import { useInputStore } from '@/lib/useInputStore'
 import { useShallow } from 'zustand/react/shallow'
@@ -14,6 +14,8 @@ import { useDebouncedCallback } from 'use-debounce'
 import { useConditions } from '@/hooks/useConditions'
 import { useInputs } from '@/hooks/useInputs'
 import { useMisc } from '@/hooks/useMisc'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { RoughnessPopup } from './roughness-popup'
 
 export function MainTabs () {
     const flowType = useInputStore.use.flowType()
@@ -32,6 +34,11 @@ export function MainTabs () {
     const updateMisc = useDebouncedCallback(useInputStore(useShallow(state => state.updateMisc)), 300)
 
     const conditionError = useInputStore.use.conditionsErrors()
+
+    const handleRoughnessChange = (newValue: string) => {
+        updateCondition(newValue, 'roughness')
+        updateConditionUnits('mm', 'roughness')
+    }
 
     return (
         <Tabs defaultValue="flow-conditions" className="w-fit">
@@ -72,7 +79,10 @@ export function MainTabs () {
                     <Input conditionError={conditionError.viscosity} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.viscosity} onChange={e => { updateCondition(e.target.value, 'viscosity') }} type='number' className='max-w-[10rem] h-7' name='viscosity'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'viscosity') }} value={conditionsUnitsValues.viscosity} selectOptions={viscosityUnits}/>
 
-                    <InputLabel>Inside Diameter</InputLabel>
+                    <Popover>
+                        <PopoverTrigger className='text-sm align-middle text-left'>Inside Diameter</PopoverTrigger>
+                        <PopoverContent>Place the content here</PopoverContent>
+                    </Popover>
                     <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.diameter} onChange={e => { updateCondition(e.target.value, 'diameter') }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'diameter') }} value={conditionsUnitsValues.diameter} selectOptions={diameterUnits}/>
 
@@ -83,8 +93,12 @@ export function MainTabs () {
                             <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'density') }} value={conditionsUnitsValues.density} selectOptions={densityUnits}/>
                         </>
                     )}
-
-                    <InputLabel>Roughness (&epsilon;)</InputLabel>
+                    <Popover>
+                        <PopoverTrigger className='text-sm align-middle text-left'>Roughness (&epsilon;)</PopoverTrigger>
+                        <PopoverContent className='w-fit'>
+                            <RoughnessPopup onValueChange={handleRoughnessChange}/>
+                        </PopoverContent>
+                    </Popover>
                     <Input conditionError={conditionError.roughness} defaultValue={conditionsValues.roughness} onBlur={() => { updateCondition.flush() }} onChange={e => { updateCondition(e.target.value, 'roughness') }} type='number' className='max-w-[10rem] h-7' name='roughness'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'roughness') }} value={conditionsUnitsValues.roughness} selectOptions={diameterUnits}/>
 

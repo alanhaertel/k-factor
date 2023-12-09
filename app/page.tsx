@@ -1,5 +1,5 @@
-import { MainTabs } from '@/components/ui/main-tabs'
-import { TabsFooter } from '@/components/ui/tabs-footer'
+import { MainTabs } from '@/components/main-tabs'
+import { TabsFooter } from '@/components/tabs-footer'
 
 export default function Home () {
     return (

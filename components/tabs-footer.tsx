@@ -1,18 +1,18 @@
 'use client'
 
 import { useInputStore } from '@/lib/useInputStore'
-import { Button, buttonVariants } from './button'
-import { Card } from './card'
-import { GithubIcon } from './github-icon'
-import { Input } from './input'
-import { InputLabel } from './input-label'
-import { LinkedinIcon } from './linkedin-icon'
+import { Button, buttonVariants } from './ui/button'
+import { Card } from './ui/card'
+import { GithubIcon } from './ui/github-icon'
+import { Input } from './ui/input'
+import { InputLabel } from './ui/input-label'
+import { LinkedinIcon } from './ui/linkedin-icon'
 import { useTransition } from 'react'
-import { caclulate } from '@/lib/actions'
+import { caclulate } from '@/actions/actions'
 import { useOutputStore } from '@/lib/useOutputStore'
 import { useShallow } from 'zustand/react/shallow'
 import { validateInputs } from '@/lib/utils'
-import { useToast } from './use-toast'
+import { useToast } from './ui/use-toast'
 
 export function TabsFooter () {
     // eslint-disable-next-line
