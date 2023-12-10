@@ -76,19 +76,7 @@ export function RoughnessPopup ({ onValueChange }: SelectRoughnessProps) {
                     </SelectGroup>
                 </SelectContent>
             </Select>
-            <InputLabel className='max-w-[13rem] min-w-[7rem] pt-4'>The values of the selected pipe material roughness are expressed in mm. On select, the Roughness (&epsilon;) input unit will the automatically set to mm.</InputLabel>
+            <InputLabel className='max-w-[13rem] min-w-[7rem] text-xs pt-4'>The values of the selected pipe material roughness are expressed in mm. On select, the Roughness (&epsilon;) input unit will the automatically set to mm.</InputLabel>
         </>
     )
 }
-
-// export function RoughnessPopup () {
-//     return (
-//         <>
-//             {Object.keys(roughnessValues).map((key) => (
-//                 <div key={key}>
-//                     <Button variant='ghost' key={key}>{`${key}: ${roughnessValues[key as keyof RoughnessValues]} mm`}</Button>
-//                 </div>
-//             ))}
-//         </>
-//     )
-// }

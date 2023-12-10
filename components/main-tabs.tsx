@@ -18,6 +18,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { RoughnessPopup } from './roughness-popup'
 import { Button } from './ui/button'
 import { ChevronDown } from 'lucide-react'
+import { InsideDiameterPopup } from './inside-diameter-popup'
 
 export function MainTabs () {
     const flowType = useInputStore.use.flowType()
@@ -36,20 +37,26 @@ export function MainTabs () {
     const updateMisc = useDebouncedCallback(useInputStore(useShallow(state => state.updateMisc)), 300)
 
     const conditionError = useInputStore.use.conditionsErrors()
-
+    // handlea el click en el popup del roughness
     const handleRoughnessChange = (newValue: string) => {
         updateCondition(newValue, 'roughness')
         updateConditionUnits('mm', 'roughness')
         updateCondition.flush()
     }
+    // handlea el value del store con instaflush, porque roughness esta controlado con el value
     const handleRoughnessInput = (newValue: string) => {
         updateCondition(newValue, 'roughness')
         updateCondition.flush()
     }
+    // handlea el value del store con instaflush, porque diameter esta controlado con el value
+    const handleDiameterInput = (newValue: string) => {
+        updateCondition(newValue, 'diameter')
+        updateCondition.flush()
+    }
 
     return (
-        <Tabs defaultValue="flow-conditions" className="w-fit">
-            <TabsList>
+        <Tabs defaultValue="flow-conditions" className=''>
+            <TabsList className=''>
                 <TabsTrigger className='dark:hover:bg-slate-700 hover:bg-slate-300' value="flow-conditions">Flow Conditions</TabsTrigger>
                 <TabsTrigger className='dark:hover:bg-slate-700 hover:bg-slate-300' value="90-elbow">90° Elbow</TabsTrigger>
                 <TabsTrigger className='dark:hover:bg-slate-700 hover:bg-slate-300' value="45-elbow">45° Elbow</TabsTrigger>
@@ -90,9 +97,11 @@ export function MainTabs () {
                         <PopoverTrigger asChild>
                             <Button className='text-sm align-middle text-left p-0 m-0 h-full w-fit' variant='ghost'>Inside Diameter&nbsp;<ChevronDown size='18px'/></Button>
                         </PopoverTrigger>
-                        <PopoverContent>Place the content here</PopoverContent>
+                        <PopoverContent onFocusOutside={(event) => { event.preventDefault() }}>
+                            <InsideDiameterPopup/>
+                        </PopoverContent>
                     </Popover>
-                    <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.diameter} onChange={e => { updateCondition(e.target.value, 'diameter') }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
+                    <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} value={conditionsValues.diameter} onChange={e => { handleDiameterInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'diameter') }} value={conditionsUnitsValues.diameter} selectOptions={diameterUnits}/>
 
                     {flowType === 'volumetric-flow' && (

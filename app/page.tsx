@@ -3,7 +3,7 @@ import { TabsFooter } from '@/components/tabs-footer'
 
 export default function Home () {
     return (
-        <main className=''>
+        <main>
             <div className='mx-auto mt-28 w-fit'>
                 <MainTabs/>
                 <TabsFooter/>
