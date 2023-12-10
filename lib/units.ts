@@ -23,7 +23,7 @@ export const volumeFlowUnits: VolumeFlowUnits = {
 }
 
 export const densityUnits: DensityUnits = {
-    'kg/m3:': 'kg/m³',
+    'kg/m3': 'kg/m³',
     'lb/ft3': 'lb/ft³',
     'g/cm3': 'g/cm³',
     'kg/ft3': 'kg/ft³',
