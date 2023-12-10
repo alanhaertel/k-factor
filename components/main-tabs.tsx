@@ -16,6 +16,8 @@ import { useInputs } from '@/hooks/useInputs'
 import { useMisc } from '@/hooks/useMisc'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { RoughnessPopup } from './roughness-popup'
+import { Button } from './ui/button'
+import { ChevronDown } from 'lucide-react'
 
 export function MainTabs () {
     const flowType = useInputStore.use.flowType()
@@ -38,6 +40,11 @@ export function MainTabs () {
     const handleRoughnessChange = (newValue: string) => {
         updateCondition(newValue, 'roughness')
         updateConditionUnits('mm', 'roughness')
+        updateCondition.flush()
+    }
+    const handleRoughnessInput = (newValue: string) => {
+        updateCondition(newValue, 'roughness')
+        updateCondition.flush()
     }
 
     return (
@@ -80,7 +87,9 @@ export function MainTabs () {
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'viscosity') }} value={conditionsUnitsValues.viscosity} selectOptions={viscosityUnits}/>
 
                     <Popover>
-                        <PopoverTrigger className='text-sm align-middle text-left'>Inside Diameter</PopoverTrigger>
+                        <PopoverTrigger asChild>
+                            <Button className='text-sm align-middle text-left p-0 m-0 h-full w-fit' variant='ghost'>Inside Diameter&nbsp;<ChevronDown size='18px'/></Button>
+                        </PopoverTrigger>
                         <PopoverContent>Place the content here</PopoverContent>
                     </Popover>
                     <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.diameter} onChange={e => { updateCondition(e.target.value, 'diameter') }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
@@ -89,17 +98,19 @@ export function MainTabs () {
                     {flowType === 'volumetric-flow' && (
                         <>
                             <InputLabel>Density</InputLabel>
-                            <Input conditionError={conditionError.density} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.density} onChange={e => { updateCondition(e.target.value, 'density') }} type='number' className='max-w-[10rem] h-7' name='density'/>
+                            <Input conditionError={conditionError.density} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.volumetricFlow} onChange={e => { updateCondition(e.target.value, 'density') }} type='number' className='max-w-[10rem] h-7' name='density'/>
                             <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'density') }} value={conditionsUnitsValues.density} selectOptions={densityUnits}/>
                         </>
                     )}
                     <Popover>
-                        <PopoverTrigger className='text-sm align-middle text-left'>Roughness (&epsilon;)</PopoverTrigger>
+                        <PopoverTrigger asChild >
+                            <Button className='text-sm align-middle text-left p-0 m-0 h-full w-fit' variant='ghost'>Roughness (&epsilon;)&nbsp;<ChevronDown size='18px'/></Button>
+                        </PopoverTrigger>
                         <PopoverContent className='w-fit'>
                             <RoughnessPopup onValueChange={handleRoughnessChange}/>
                         </PopoverContent>
                     </Popover>
-                    <Input conditionError={conditionError.roughness} defaultValue={conditionsValues.roughness} onBlur={() => { updateCondition.flush() }} onChange={e => { updateCondition(e.target.value, 'roughness') }} type='number' className='max-w-[10rem] h-7' name='roughness'/>
+                    <Input conditionError={conditionError.roughness} onBlur={() => { updateCondition.flush() }} value={conditionsValues.roughness} onChange={e => { handleRoughnessInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='roughness'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'roughness') }} value={conditionsUnitsValues.roughness} selectOptions={diameterUnits}/>
 
                 </Card>
