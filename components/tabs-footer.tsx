@@ -34,7 +34,7 @@ export function TabsFooter () {
 
     return (
         <>
-            <Card className='flex items-center w-full my-2 p-3'>
+            <Card className='flex flex-wrap items-center justify-center w-full my-2 p-3'>
                 <div className='flex mr-auto items-center gap-3'>
                     <InputLabel>Eq. Lenght [m]</InputLabel>
                     <Input value={leq} className='max-w-[10rem] h-7 dark:bg-slate-900 bg-gray-200 cursor-default focus-visible:ring-transparent' readOnly={true} type='number'/>

@@ -56,7 +56,7 @@ export function MainTabs () {
 
     return (
         <Tabs defaultValue="flow-conditions" className=''>
-            <TabsList className=''>
+            <TabsList className='flex flex-wrap h-auto'>
                 <TabsTrigger className='dark:hover:bg-slate-700 hover:bg-slate-300' value="flow-conditions">Flow Conditions</TabsTrigger>
                 <TabsTrigger className='dark:hover:bg-slate-700 hover:bg-slate-300' value="90-elbow">90° Elbow</TabsTrigger>
                 <TabsTrigger className='dark:hover:bg-slate-700 hover:bg-slate-300' value="45-elbow">45° Elbow</TabsTrigger>
@@ -68,7 +68,7 @@ export function MainTabs () {
                 <ModeToggle/>
             </TabsList>
             <TabsContent value="flow-conditions">
-                <Card className ='grid grid-fit-3 gap-5 items-center h-72 p-3'>
+                <Card className ='grid grid-fit-3 gap-5 items-center h-auto min-h-[19rem] p-3'>
                     <InputLabel>Flow Type</InputLabel>
                     <SelectUnit onValueChange={newValue => { updateFlowType(newValue) }} value={flowType} selectOptions={{ 'mass-flow': 'Mass', 'volumetric-flow': 'Volumetric' }}/>
                     <br/>
@@ -95,7 +95,7 @@ export function MainTabs () {
 
                     <Popover>
                         <PopoverTrigger asChild>
-                            <Button className='text-sm align-middle text-left p-0 m-0 h-full w-fit' variant='ghost'>Inside Diameter&nbsp;<ChevronDown size='18px'/></Button>
+                            <Button className='text-sm align-middle text-left p-0 m-0 h-full w-fit whitespace-normal' variant='ghost'>Inside Diameter&nbsp;<ChevronDown size='18px'/></Button>
                         </PopoverTrigger>
                         <PopoverContent onFocusOutside={(event) => { event.preventDefault() }}>
                             <InsideDiameterPopup/>
@@ -113,7 +113,7 @@ export function MainTabs () {
                     )}
                     <Popover>
                         <PopoverTrigger asChild >
-                            <Button className='text-sm align-middle text-left p-0 m-0 h-full w-fit' variant='ghost'>Roughness (&epsilon;)&nbsp;<ChevronDown size='18px'/></Button>
+                            <Button className='text-sm align-middle text-left p-0 m-0 h-full w-fit whitespace-normal' variant='ghost'>Roughness (&epsilon;)&nbsp;<ChevronDown size='18px'/></Button>
                         </PopoverTrigger>
                         <PopoverContent className='w-fit'>
                             <RoughnessPopup onValueChange={handleRoughnessChange}/>
@@ -126,57 +126,57 @@ export function MainTabs () {
 
             </TabsContent>
             <TabsContent value="90-elbow">
-                <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
+                <Card className ='grid grid-fit-2 xsm:grid-fit-4 gap-5 items-center h-auto min-h-[19rem] p-3'>
                     <InputLabel>Threaded, SR (R/D = 1)</InputLabel>
                     <Input defaultValue={inputsValues.threaded90} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'threaded90') }} type='number' className='max-w-[10rem] h-7' name='C90-threaded'/>
 
-                    <InputLabel className='ml-16'>1 Weld (90° Angle)</InputLabel>
+                    <InputLabel className='xsm:ml-16'>1 Weld (90° Angle)</InputLabel>
                     <Input defaultValue={inputsValues.weld190} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'weld190') }} type='number' className='max-w-[10rem] h-7' name='C90-w1'/>
 
                     <InputLabel>Flanged/Welded, SR (R/D = 1)</InputLabel>
                     <Input defaultValue={inputsValues.flanged90} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'flanged90') }} type='number' className='max-w-[10rem] h-7' name='C90-flanged-welded'/>
 
-                    <InputLabel className='ml-16'>2 Weld (45° Angle)</InputLabel>
+                    <InputLabel className='xsm:ml-16'>2 Weld (45° Angle)</InputLabel>
                     <Input defaultValue={inputsValues.weld290} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'weld290') }} type='number' className='max-w-[10rem] h-7' name='C90-w2'/>
 
                     <InputLabel>All Types, LR (R/D = 1.5)</InputLabel>
                     <Input defaultValue={inputsValues.allTypes90} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'allTypes90') }} type='number' className='max-w-[10rem] h-7' name='C90-lr'/>
 
-                    <InputLabel className='ml-16'>3 Weld (30° Angle)</InputLabel>
+                    <InputLabel className='xsm:ml-16'>3 Weld (30° Angle)</InputLabel>
                     <Input defaultValue={inputsValues.weld390} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'weld390') }} type='number' className='max-w-[10rem] h-7' name='C90-w3'/>
 
-                    <div className='col-span-2'/>
+                    <div className='hidden xsm:block xsm:col-span-2'/>
 
-                    <InputLabel className='ml-16'>4 Weld (22.5° Angle)</InputLabel>
+                    <InputLabel className='xsm:ml-16'>4 Weld (22.5° Angle)</InputLabel>
                     <Input defaultValue={inputsValues.weld490} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'weld490') }} type='number' className='max-w-[10rem] h-7' name='C90-w4'/>
 
-                    <div className='col-span-2'/>
+                    <div className='hidden xsm:block xsm:col-span-2'/>
 
-                    <InputLabel className='ml-16'>5 Weld (18° Angle)</InputLabel>
+                    <InputLabel className='xsm:ml-16'>5 Weld (18° Angle)</InputLabel>
                     <Input defaultValue={inputsValues.weld590} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'weld590') }} type='number' className='max-w-[10rem] h-7' name='C90-w5'/>
                 </Card>
             </TabsContent>
             <TabsContent value="45-elbow">
-                <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
+                <Card className ='grid grid-fit-2 xsm:grid-fit-4 gap-5 items-center h-auto min-h-[19rem] p-3'>
                     <InputLabel>All Types, SR (R/D = 1)</InputLabel>
                     <Input defaultValue={inputsValues.allTypesSR45} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'allTypesSR45') }} type='number' className='max-w-[10rem] h-7' name='C45-sr'/>
 
-                    <InputLabel className='ml-16'>1 Weld (45° Angle)</InputLabel>
+                    <InputLabel className='xsm:ml-16'>1 Weld (45° Angle)</InputLabel>
                     <Input defaultValue={inputsValues.weld145} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'weld145') }} type='number' className='max-w-[10rem] h-7' name='C45-w1'/>
 
                     <InputLabel>All Types LR (R/D = 1.5)</InputLabel>
                     <Input defaultValue={inputsValues.allTypesLR45} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'allTypesLR45') }} type='number' className='max-w-[10rem] h-7' name='C45-lr'/>
 
-                    <InputLabel className='ml-16'>2 Welds (45° Angle)</InputLabel>
+                    <InputLabel className='xsm:ml-16'>2 Welds (45° Angle)</InputLabel>
                     <Input defaultValue={inputsValues.weld245} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'weld245') }} type='number' className='max-w-[10rem] h-7' name='C45-w2'/>
                 </Card>
             </TabsContent>
             <TabsContent value="180">
-                <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
+                <Card className ='grid grid-fit-2 xsm:grid-fit-4 gap-5 items-center h-auto min-h-[19rem] p-3'>
                     <InputLabel>Screwed, SR (R/D = 1)</InputLabel>
                     <Input defaultValue={inputsValues.screwed180} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'screwed180') }} type='number' className='max-w-[10rem] h-7' name='C180-screwed'/>
 
-                    <InputLabel className='ml-16'>Flanged/Welded, SR (R/D = 1)</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Flanged/Welded, SR (R/D = 1)</InputLabel>
                     <Input defaultValue={inputsValues.flanged180} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'flanged180') }} type='number' className='max-w-[10rem] h-7' name="C180-flanged-welded"/>
 
                     <InputLabel>All Types, LR (R/D = 1.5)</InputLabel>
@@ -184,26 +184,26 @@ export function MainTabs () {
                 </Card>
             </TabsContent>
             <TabsContent value="tee-elbow">
-                <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
+                <Card className ='grid grid-fit-2 xsm:grid-fit-4 gap-5 items-center h-auto min-h-[19rem] p-3'>
                     <InputLabel>Screwed, SR (R/D = 1)</InputLabel>
                     <Input defaultValue={inputsValues.screwedSRTee} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'screwedSRTee') }} type='number' className='max-w-[10rem] h-7' name='Tee-el-screwed'/>
 
-                    <InputLabel className='ml-16'>Screwed, LR</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Screwed, LR</InputLabel>
                     <Input defaultValue={inputsValues.screwedLRTee} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'screwedLRTee') }} type='number' className='max-w-[10rem] h-7' name="Tee-el-lr"/>
 
                     <InputLabel>Flanged/Welded, SR (R/D = 1)</InputLabel>
                     <Input defaultValue={inputsValues.flangedTee} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'flangedTee') }} type='number' className='max-w-[10rem] h-7' name="Tee-el-flanged-welded"/>
 
-                    <InputLabel className='ml-16'>Stub-in-type Branch</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Stub-in-type Branch</InputLabel>
                     <Input defaultValue={inputsValues.stubInTee} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'stubInTee') }} type='number' className='max-w-[10rem] h-7' name="Tee-el-branch"/>
                 </Card>
             </TabsContent>
             <TabsContent value="tee-thorugh">
-                <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
+                <Card className ='grid grid-fit-2 xsm:grid-fit-4 gap-5 items-center h-auto min-h-[19rem] p-3'>
                     <InputLabel>Screwed</InputLabel>
                     <Input defaultValue={inputsValues.screwedTeeThrough} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'screwedTeeThrough') }} type='number' className='max-w-[10rem] h-7' name='Tee-thr-screwed'/>
 
-                    <InputLabel className='ml-16'>Flanged/Welded</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Flanged/Welded</InputLabel>
                     <Input defaultValue={inputsValues.flangedTeeThrough} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'flangedTeeThrough') }} type='number' className='max-w-[10rem] h-7' name="Tee-thr-flanged-welded"/>
 
                     <InputLabel>Stub-in-type Branch</InputLabel>
@@ -211,50 +211,50 @@ export function MainTabs () {
                 </Card>
             </TabsContent>
             <TabsContent value="valves">
-                <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
+                <Card className ='grid grid-fit-2 xsm:grid-fit-4 gap-5 items-center h-auto min-h-[19rem] p-3'>
                     <InputLabel>Full Line Size, &beta; = 1</InputLabel>
                     <Input defaultValue={inputsValues.valve1b} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'valve1b') }} type='number' className='max-w-[10rem] h-7' name='Valve-beta1'/>
 
-                    <InputLabel className='ml-16'>Globe, Standard</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Globe, Standard</InputLabel>
                     <Input defaultValue={inputsValues.globeStandard} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'globeStandard') }} type='number' className='max-w-[10rem] h-7' name="Valve-globe-std"/>
 
                     <InputLabel>Reduced Trim, &beta; = 0.9</InputLabel>
                     <Input defaultValue={inputsValues.valve09b} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'valve09b') }} type='number' className='max-w-[10rem] h-7' name="Valve-beta09"/>
 
-                    <InputLabel className='ml-16'>Globe, Angle</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Globe, Angle</InputLabel>
                     <Input defaultValue={inputsValues.globeAngle} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'globeAngle') }} type='number' className='max-w-[10rem] h-7' name="Valve-globe-angle"/>
 
                     <InputLabel>Reduced Trim, &beta; = 0.8</InputLabel>
                     <Input defaultValue={inputsValues.valve08b} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'valve08b') }} type='number' className='max-w-[10rem] h-7' name="Valve-beta08"/>
 
-                    <InputLabel className='ml-16'>Diaphragm, dam type</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Diaphragm, dam type</InputLabel>
                     <Input defaultValue={inputsValues.diaphragm} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'diaphragm') }} type='number' className='max-w-[10rem] h-7' name="Valve-diaphragm"/>
 
                     <InputLabel>Butterfly</InputLabel>
                     <Input defaultValue={inputsValues.butterfly} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'butterfly') }} type='number' className='max-w-[10rem] h-7' name="Valve-butterfly"/>
 
-                    <InputLabel className='ml-16'>Check Lift</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Check Lift</InputLabel>
                     <Input defaultValue={inputsValues.checkLift} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'checkLift') }} type='number' className='max-w-[10rem] h-7' name="Valve-check-lift"/>
 
                     <InputLabel>Check Swing</InputLabel>
                     <Input defaultValue={inputsValues.checkSwing} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'checkSwing') }} type='number' className='max-w-[10rem] h-7' name="Valve-check-swing"/>
 
-                    <InputLabel className='ml-16'>Check Tilting-Disk</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Check Tilting-Disk</InputLabel>
                     <Input defaultValue={inputsValues.checkDisk} onBlur={() => { updateInput.flush() }} onChange={e => { updateInput(e.target.value, 'checkDisk') }} type='number' className='max-w-[10rem] h-7' name="Valve-check-disk"/>
                 </Card>
             </TabsContent>
             <TabsContent value="misc">
-                <Card className ='grid grid-fit-4 gap-5 items-center h-72 p-3'>
+                <Card className ='grid grid-fit-2 xsm:grid-fit-4 gap-5 items-center h-auto min-h-[19rem] p-3'>
                     <InputLabel>Inlet</InputLabel>
                     <Input defaultValue={miscValues.inlet} onBlur={() => { updateMisc.flush() }} onChange={e => { updateMisc(e.target.value, 'inlet') }} type='number' className='max-w-[10rem] h-7' name='Misc-inlet-sq'/>
 
-                    <InputLabel className='ml-16'>Outlet</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Outlet</InputLabel>
                     <Input defaultValue={miscValues.outlet} onBlur={() => { updateMisc.flush() }} onChange={e => { updateMisc(e.target.value, 'outlet') }} type='number' className='max-w-[10rem] h-7' name='Misc-inlet-inward'/>
 
                     <InputLabel>Enlargement</InputLabel>
                     <Input defaultValue={miscValues.enlargement} onBlur={() => { updateMisc.flush() }} onChange={e => { updateMisc(e.target.value, 'enlargement') }} type='number' className='max-w-[10rem] h-7' name='Misc-enlargement'/>
 
-                    <InputLabel className='ml-16'>Contraction</InputLabel>
+                    <InputLabel className='xsm:ml-16'>Contraction</InputLabel>
                     <Input defaultValue={miscValues.contraction} onBlur={() => { updateMisc.flush() }} onChange={e => { updateMisc(e.target.value, 'contraction') }} type='number' className='max-w-[10rem] h-7' name='Misc-contraction'/>
                 </Card>
             </TabsContent>
