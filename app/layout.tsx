@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ui/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,7 @@ export default function RootLayout ({
 }) {
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body className= {`${inter.className} antialiased`}>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="dark"
@@ -28,6 +29,7 @@ export default function RootLayout ({
                     {children}
                     <Toaster/>
                 </ThemeProvider>
+                <SpeedInsights />
             </body>
         </html>
     )
