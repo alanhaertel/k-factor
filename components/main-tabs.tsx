@@ -19,8 +19,12 @@ import { RoughnessPopup } from './roughness-popup'
 import { Button } from './ui/button'
 import { ChevronDown } from 'lucide-react'
 import { InsideDiameterPopup } from './inside-diameter-popup'
+import { useState } from 'react'
 
 export function MainTabs () {
+    const [roughnessValue, setRoughnessValue] = useState('')
+    const [diameterValue, setDiameterValue] = useState('')
+
     const flowType = useInputStore.use.flowType()
     const updateFlowType = useInputStore(useShallow(state => state.updateFlowType))
 
@@ -45,17 +49,19 @@ export function MainTabs () {
     }
     // handlea el value del store con instaflush, porque roughness esta controlado con el value
     const handleRoughnessInput = (newValue: string) => {
+        setRoughnessValue(newValue)
         updateCondition(newValue, 'roughness')
         updateCondition.flush()
     }
     // handlea el value del store con instaflush, porque diameter esta controlado con el value
     const handleDiameterInput = (newValue: string) => {
+        setDiameterValue(newValue)
         updateCondition(newValue, 'diameter')
         updateCondition.flush()
     }
 
     return (
-        <Tabs defaultValue="flow-conditions" className=''>
+        <Tabs defaultValue="flow-conditions">
             <TabsList className='flex flex-wrap h-auto'>
                 <TabsTrigger className='dark:hover:bg-slate-700 hover:bg-slate-300' value="flow-conditions">Flow Conditions</TabsTrigger>
                 <TabsTrigger className='dark:hover:bg-slate-700 hover:bg-slate-300' value="90-elbow">90° Elbow</TabsTrigger>
@@ -101,13 +107,13 @@ export function MainTabs () {
                             <InsideDiameterPopup/>
                         </PopoverContent>
                     </Popover>
-                    <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} value={conditionsValues.diameter} onChange={e => { handleDiameterInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
+                    <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} value={diameterValue} onChange={e => { handleDiameterInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'diameter') }} value={conditionsUnitsValues.diameter} selectOptions={diameterUnits}/>
 
                     {flowType === 'volumetric-flow' && (
                         <>
                             <InputLabel>Density</InputLabel>
-                            <Input conditionError={conditionError.density} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.volumetricFlow} onChange={e => { updateCondition(e.target.value, 'density') }} type='number' className='max-w-[10rem] h-7' name='density'/>
+                            <Input conditionError={conditionError.density} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.density} onChange={e => { updateCondition(e.target.value, 'density') }} type='number' className='max-w-[10rem] h-7' name='density'/>
                             <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'density') }} value={conditionsUnitsValues.density} selectOptions={densityUnits}/>
                         </>
                     )}
@@ -119,7 +125,7 @@ export function MainTabs () {
                             <RoughnessPopup onValueChange={handleRoughnessChange}/>
                         </PopoverContent>
                     </Popover>
-                    <Input conditionError={conditionError.roughness} onBlur={() => { updateCondition.flush() }} value={conditionsValues.roughness} onChange={e => { handleRoughnessInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='roughness'/>
+                    <Input conditionError={conditionError.roughness} onBlur={() => { updateCondition.flush() }} value={roughnessValue} onChange={e => { handleRoughnessInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='roughness'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'roughness') }} value={conditionsUnitsValues.roughness} selectOptions={diameterUnits}/>
 
                 </Card>
