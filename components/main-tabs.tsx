@@ -43,6 +43,7 @@ export function MainTabs () {
     const conditionError = useInputStore.use.conditionsErrors()
     // handlea el click en el popup del roughness
     const handleRoughnessChange = (newValue: string) => {
+        setRoughnessValue(newValue)
         updateCondition(newValue, 'roughness')
         updateConditionUnits('mm', 'roughness')
         updateCondition.flush()
@@ -104,7 +105,7 @@ export function MainTabs () {
                             <Button className='text-sm align-middle text-left p-0 m-0 h-full w-fit whitespace-normal' variant='ghost'>Inside Diameter&nbsp;<ChevronDown size='18px'/></Button>
                         </PopoverTrigger>
                         <PopoverContent onFocusOutside={(event) => { event.preventDefault() }}>
-                            <InsideDiameterPopup/>
+                            <InsideDiameterPopup setDiameterValue={setDiameterValue}/>
                         </PopoverContent>
                     </Popover>
                     <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} value={diameterValue} onChange={e => { handleDiameterInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
