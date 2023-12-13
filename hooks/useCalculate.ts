@@ -32,6 +32,7 @@ export function useCalculate () {
             flowType
         }
         const { validation, errorMessage, errors } = validateInputs(conditionsData, flowType)
+
         if (validation) {
             fetch('/api', {
                 method: 'POST',

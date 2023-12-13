@@ -11,6 +11,7 @@ import { Loading } from './ui/loading'
 
 export function TabsFooter () {
     const { loading, totalK, leq, calculateK } = useCalculate()
+
     return (
         <>
             <Card className='flex flex-wrap items-center justify-center w-full my-2 p-3'>
