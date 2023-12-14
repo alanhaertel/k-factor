@@ -7,7 +7,11 @@ import { useState } from 'react'
 import { Button } from './ui/button'
 import { useInputStore } from '@/lib/useInputStore'
 
-export function InsideDiameterPopup () {
+type InsideDiameterPopupProps = {
+    setDiameterValue: (value: string) => void
+}
+
+export function InsideDiameterPopup ({ setDiameterValue }: InsideDiameterPopupProps) {
     const options = pipeData.map((pipe) => ({
         label: pipe.nps,
         value: pipe.nps,
@@ -34,6 +38,7 @@ export function InsideDiameterPopup () {
 
         if (selectedScheduleObject) {
             const diameterValue = selectedScheduleObject.value.toString()
+            setDiameterValue(diameterValue)
             updateCondition(diameterValue, 'diameter')
             updateConditionUnit('in', 'diameter')
         }
