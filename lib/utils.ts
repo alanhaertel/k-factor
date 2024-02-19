@@ -9,7 +9,7 @@ export function cn (...inputs: ClassValue[]) {
 
 export function validateInputs (conditionsData: Conditions, flowType: string) {
     let validation = true
-    let errorMessage = ''
+    const errorMessage: string[] = []
 
     const errors: ConditionsErrors = {
         massFlow: 'ok',
@@ -50,7 +50,7 @@ export function validateInputs (conditionsData: Conditions, flowType: string) {
         const errorData = parsedConditions.error.flatten().fieldErrors.data
         if (Array.isArray(errorData)) {
             for (const errorItem of errorData) {
-                errorMessage += `● ${errorItem}\n`
+                errorMessage.push(errorItem)
             }
         }
 

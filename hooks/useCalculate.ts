@@ -76,7 +76,7 @@ export function useCalculate () {
             updateErrors(errors)
             toast({
                 title: 'Error',
-                description: errorMessage,
+                errorMessages: errorMessage,
                 variant: 'destructive',
                 className: 'whitespace-pre-wrap'
             })
