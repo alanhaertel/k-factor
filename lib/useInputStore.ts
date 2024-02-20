@@ -90,8 +90,14 @@ const store = create<Store>((set) => ({
     updateFlowType: (value) => { set(() => ({ flowType: value })) },
     updateCondition: (value, conditionName) => {
         if (value.trim() === '') {
+            console.log('trim malo')
             set((state) => ({ conditions: { ...state.conditions, [conditionName]: null } }))
+        } else if (value.includes(',')) {
+            console.log('replazeado malo')
+            const cleanValue = value.replace(',', '.')
+            set((state) => ({ conditions: { ...state.conditions, [conditionName]: parseFloat(cleanValue) } }))
         } else {
+            console.log('else malo', value)
             set((state) => ({ conditions: { ...state.conditions, [conditionName]: parseFloat(value) } }))
         }
     },
