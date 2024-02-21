@@ -89,7 +89,7 @@ const store = create<Store>((set) => ({
 
     updateFlowType: (value) => { set(() => ({ flowType: value })) },
     updateCondition: (value, conditionName) => {
-        if (value.trim() === '' || typeof parseFloat(value) !== 'number') {
+        if (value.trim() === '' || typeof parseFloat(value) !== 'number' || isNaN(parseFloat(value))) {
             set((state) => ({ conditions: { ...state.conditions, [conditionName]: null } }))
         } else if (value.includes(',')) {
             const cleanValue = value.replace(',', '.')

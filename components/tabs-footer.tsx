@@ -23,7 +23,7 @@ export function TabsFooter () {
                     <Button type='submit' onClick={calculateK}> {loading ? <Loading /> : 'Calculate'}</Button>
                 </div>
                 <div className='px-2 flex items-center'>
-                    <a href={'https://github.com/alanhaertel'} className={buttonVariants({ variant: 'ghost' })} target="_blank" rel="noreferrer">
+                    <a href={'https://github.com/alanhaertel/k-factor'} className={buttonVariants({ variant: 'ghost' })} target="_blank" rel="noreferrer">
                         <GithubIcon className='w-7 h-7 dark:fill-foreground fill-foreground hover:fill-slate-600'/>
                     </a>
                     <a href={'https://www.linkedin.com/in/alan-haertel/'} className={buttonVariants({ variant: 'ghost' })} target="_blank" rel="noreferrer">
