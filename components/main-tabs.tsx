@@ -83,7 +83,7 @@ export function MainTabs () {
                     {flowType === 'volumetric-flow' && (
                         <>
                             <InputLabel>Volumetric Flow</InputLabel>
-                            <Input conditionError={conditionError.volumetricFlow} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.volumetricFlow} onChange={e => { updateCondition(e.target.value, 'volumetricFlow') }} required={true} type='number' className='max-w-[10rem] h-7' name='volumetric-flow'/>
+                            <Input inputMode='decimal' conditionError={conditionError.volumetricFlow} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.volumetricFlow} onChange={e => { updateCondition(e.target.value, 'volumetricFlow') }} required={true} type='text' className='max-w-[10rem] h-7' name='volumetric-flow'/>
                             <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'volumetricFlow') }} value={conditionsUnitsValues.volumetricFlow} selectOptions={volumeFlowUnits}/>
                         </>
                     )}
@@ -91,7 +91,7 @@ export function MainTabs () {
                     {flowType === 'mass-flow' && (
                         <>
                             <InputLabel>Mass Flow</InputLabel>
-                            <Input conditionError={conditionError.massFlow} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.massFlow} onChange={e => { updateCondition(e.target.value, 'massFlow') }} type='number' className='max-w-[10rem] h-7' name='mass-flow'/>
+                            <Input inputMode='decimal' conditionError={conditionError.massFlow} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.massFlow} onChange={e => { updateCondition(e.target.value, 'massFlow') }} type='text' className='max-w-[10rem] h-7' name='mass-flow'/>
                             <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'massFlow') }} value={conditionsUnitsValues.massFlow} selectOptions={massFlowUnits}/>
                         </>
                     )}
@@ -108,13 +108,13 @@ export function MainTabs () {
                             <InsideDiameterPopup setDiameterValue={setDiameterValue}/>
                         </PopoverContent>
                     </Popover>
-                    <Input conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} value={diameterValue} onChange={e => { handleDiameterInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='inside-diameter'/>
+                    <Input inputMode='decimal' conditionError={conditionError.diameter} onBlur={() => { updateCondition.flush() }} value={diameterValue} onChange={e => { handleDiameterInput(e.target.value) }} type='text' className='max-w-[10rem] h-7' name='inside-diameter'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'diameter') }} value={conditionsUnitsValues.diameter} selectOptions={diameterUnits}/>
 
                     {flowType === 'volumetric-flow' && (
                         <>
                             <InputLabel>Density</InputLabel>
-                            <Input conditionError={conditionError.density} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.density} onChange={e => { updateCondition(e.target.value, 'density') }} type='number' className='max-w-[10rem] h-7' name='density'/>
+                            <Input inputMode='decimal' conditionError={conditionError.density} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.density} onChange={e => { updateCondition(e.target.value, 'density') }} type='text' className='max-w-[10rem] h-7' name='density'/>
                             <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'density') }} value={conditionsUnitsValues.density} selectOptions={densityUnits}/>
                         </>
                     )}
@@ -126,7 +126,7 @@ export function MainTabs () {
                             <RoughnessPopup onValueChange={handleRoughnessChange}/>
                         </PopoverContent>
                     </Popover>
-                    <Input conditionError={conditionError.roughness} onBlur={() => { updateCondition.flush() }} value={roughnessValue} onChange={e => { handleRoughnessInput(e.target.value) }} type='number' className='max-w-[10rem] h-7' name='roughness'/>
+                    <Input inputMode='decimal' conditionError={conditionError.roughness} onBlur={() => { updateCondition.flush() }} value={roughnessValue} onChange={e => { handleRoughnessInput(e.target.value) }} type='text' className='max-w-[10rem] h-7' name='roughness'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'roughness') }} value={conditionsUnitsValues.roughness} selectOptions={diameterUnits}/>
 
                 </Card>
