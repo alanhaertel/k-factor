@@ -4,6 +4,8 @@ import { type Misc, type Conditions, type Inputs, type ConditionsUnits } from '.
 import { z } from 'zod'
 import { density, length, massFlow, viscosity, volumetricFlow } from 'engineering-unit-converter'
 
+export const runtime = 'edge'
+
 type VerifiedConditions = {
     massFlow: number
     viscosity: number
