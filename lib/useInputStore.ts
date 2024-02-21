@@ -89,11 +89,15 @@ const store = create<Store>((set) => ({
 
     updateFlowType: (value) => { set(() => ({ flowType: value })) },
     updateCondition: (value, conditionName) => {
-        if (value.trim() === '' || typeof parseFloat(value.trim()) !== 'number') {
-            console.log('no hay numero', value, parseFloat(value.trim()))
+        if (value.trim() === '' || typeof parseFloat(value) !== 'number') {
+            console.log('no hay numero', value, parseFloat(value))
             set((state) => ({ conditions: { ...state.conditions, [conditionName]: null } }))
+        } else if (value.includes(',')) {
+            const cleanValue = value.replace(',', '.')
+            console.log('contiente,', value, parseFloat(cleanValue))
+            set((state) => ({ conditions: { ...state.conditions, [conditionName]: parseFloat(cleanValue) } }))
         } else {
-            console.log('seteo num', value)
+            console.log('seteo num', value, parseFloat(value))
             set((state) => ({ conditions: { ...state.conditions, [conditionName]: parseFloat(value) } }))
         }
     },

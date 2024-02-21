@@ -97,7 +97,7 @@ export function MainTabs () {
                     )}
 
                     <InputLabel>Viscosity</InputLabel>
-                    <Input inputMode='decimal' lang='es' conditionError={conditionError.viscosity} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.viscosity} onChange={e => { updateCondition(e.target.value, 'viscosity') }} type='number' className='max-w-[10rem] h-7' name='viscosity'/>
+                    <Input inputMode='decimal' conditionError={conditionError.viscosity} onBlur={() => { updateCondition.flush() }} defaultValue={conditionsValues.viscosity} onChange={e => { updateCondition(e.target.value, 'viscosity') }} type='text' className='max-w-[10rem] h-7' name='viscosity'/>
                     <SelectUnit onValueChange={newValue => { updateConditionUnits(newValue, 'viscosity') }} value={conditionsUnitsValues.viscosity} selectOptions={viscosityUnits}/>
 
                     <Popover>
